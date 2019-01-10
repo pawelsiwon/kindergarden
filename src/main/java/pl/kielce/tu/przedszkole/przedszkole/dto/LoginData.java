@@ -1,4 +1,4 @@
-package dto;
+package pl.kielce.tu.przedszkole.przedszkole.dto;
 
 import lombok.Data;
 
