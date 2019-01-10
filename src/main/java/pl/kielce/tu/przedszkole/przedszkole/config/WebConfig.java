@@ -9,9 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+
+        http.authorizeRequests()
                 .anyRequest()
                 .permitAll();
+
     }
 }
