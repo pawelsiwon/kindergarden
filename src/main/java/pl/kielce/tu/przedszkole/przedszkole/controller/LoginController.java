@@ -36,11 +36,8 @@ public class LoginController {
     */
 
     ResponseEntity<?> addCorsHeaders(ResponseEntity rsp) {
-        rsp.getHeaders().add("Access-Control-Allow-Origin", "*");
-        rsp.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, PATCH, HEAD");
-        rsp.getHeaders().add("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-        rsp.getHeaders().add("Access-Control-Expose-Headers", "Access-Control-Allow-Origin, Access-Control-Allow-Credentials");
-        rsp.getHeaders().add("Access-Control-Allow-Credentials", "true");
+
+
 
         return rsp;
     }
