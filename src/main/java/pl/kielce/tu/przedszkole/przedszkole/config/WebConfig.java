@@ -12,6 +12,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf().disable()
+                .cors().disable()
                 .authorizeRequests()
                 .anyRequest()
                 .permitAll();
