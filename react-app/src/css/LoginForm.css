@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  width: 20%;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 20px auto;
+  padding: 20px 50px;
+  border: 1px solid;
+  border-radius: 3px;
+  background-color: rgb(155, 206, 253);
+  box-shadow: 1px 1px 0 1px rgb(30, 140, 243);
+}
+
+.message {
+  display: block;
+  height: 25px;
+  font-size: 10px;
+}
+
+.container input {
+  flex: 1 100px;
+}
