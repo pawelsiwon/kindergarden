@@ -21,25 +21,9 @@ public class LoginController {
         logger.info("Otrzymany login i haslo to: "+login.getLogin()+":"+login.getPassword());
         if(login.getLogin().equals("admin") && login.getPassword().equals("admin")) {
 
-            return addCorsHeaders(ResponseEntity.ok("Zalogowalo Cie... chyba."));
+            return ResponseEntity.ok("Zalogowalo Cie... chyba.");
         }
         else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("fail.");
-    }
-   /*@RequestMapping(value="/login/{login}/{password}", method = RequestMethod.GET)
-   ResponseEntity<?> loginProcedure(@PathVariable(name = "login") String login,@PathVariable(name = "password") String password, HttpServletRequest httpServletRequest) {
-
-       if(login.equals("admin") && password.equals("admin")) {
-           return ResponseEntity.ok("Zalogowalo Cie... chyba.");
-       }
-       else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("fail.");
-   }
-    */
-
-    ResponseEntity<?> addCorsHeaders(ResponseEntity rsp) {
-
-
-
-        return rsp;
     }
 
     @RequestMapping(value="/test", method=RequestMethod.GET)
