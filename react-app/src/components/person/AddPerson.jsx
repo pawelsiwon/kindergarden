@@ -27,7 +27,9 @@ class AddPerson extends Component {
       { title: "Administrator", value: "admin" },
       { title: "Parent", value: "parent" },
       { title: "Employee", value: "employee" }
-    ]
+    ],
+    formMessage: "",
+    alertType: ""
   };
   render() {
     return (
@@ -196,7 +198,7 @@ class AddPerson extends Component {
           <div className="row">
             <button
               className="btn btn-danger col-md-1 m-2"
-              onClick={() => this.reset}
+              onClick={this.resetForm}
             >
               Reset
             </button>
@@ -207,14 +209,46 @@ class AddPerson extends Component {
               Add
             </button>
           </div>
+          <div
+            className={"m-2 alert alert-" + this.state.alertType}
+            role="alert"
+          >
+            {this.state.formMessage}
+          </div>
         </form>
       </div>
     );
   }
 
-  reset() {
-    this.cleanState();
-  }
+  resetForm = () => {
+    this.setState({
+      name: "",
+      surname: "",
+      birthdate: "",
+
+      pesel: "",
+      phonenumber: "",
+      role: "",
+
+      email: "",
+      login: "",
+      password: "",
+
+      city: "",
+      postale: "",
+      street: "",
+      streetAddress: "",
+      suite: "",
+
+      lista: [
+        { title: "Administrator", value: "admin" },
+        { title: "Parent", value: "parent" },
+        { title: "Employee", value: "employee" }
+      ],
+      formMessage: "",
+      alertType: ""
+    });
+  };
 
   submitPerson = () => {
     console.log(this.props.apiHost + "/person/add");
@@ -224,9 +258,20 @@ class AddPerson extends Component {
       personId: 0
     };
     console.log(requestData);
-    Axios.post(this.props.apiHost + "/person/add")
-      .then(() => console.log("no wysłało"))
-      .catch(err => console.log(err));
+    Axios.post(this.props.apiHost + "/person/add", requestData)
+      .then(
+        this.setState({
+          alertType: "success",
+          formMessage: "Person added!"
+        })
+      )
+      .catch(
+        this.setState({
+          alertType: "warning",
+          formMessage:
+            "An error occured, please try again or contact with admin!"
+        })
+      );
   };
 }
 
