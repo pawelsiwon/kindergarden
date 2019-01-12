@@ -28,7 +28,7 @@ public class PersonListContext {
         selectedStrategy = personListStrategyMap.get(role);
     }
 
-    List<Person> getList() {
+    public List<Person> getList() {
         return selectedStrategy.getList(personRepository);
     }
 }

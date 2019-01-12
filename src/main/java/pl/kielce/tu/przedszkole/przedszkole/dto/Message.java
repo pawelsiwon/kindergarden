@@ -6,4 +6,13 @@ import lombok.Data;
 public class Message {
     Integer status;
     String message;
+
+    public Message() {
+
+    }
+    public Message(Integer status, String message) {
+        this.status = status;
+        this.message = message;
+    }
+
 }

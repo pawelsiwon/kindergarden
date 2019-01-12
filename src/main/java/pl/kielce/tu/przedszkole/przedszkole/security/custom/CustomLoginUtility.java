@@ -7,6 +7,7 @@ import pl.kielce.tu.przedszkole.przedszkole.dto.LoginData;
 import pl.kielce.tu.przedszkole.przedszkole.model.Person;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
 
+import javax.naming.AuthenticationException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -37,5 +38,13 @@ public class CustomLoginUtility {
         }
         logger.severe("Did not find that user! Something's wrong.");
         return false;
+    }
+    public void validateAuthentication(LoginData loginData) throws AuthenticationException {
+        if(authenticationCorrect(loginData)) {
+
+        }
+        else {
+            throw new AuthenticationException("Incorrect auth data");
+        }
     }
 }
