@@ -30,9 +30,9 @@ public class LoginController {
         //logger.info("Otrzymany login i haslo to: "+login.getLogin()+":"+login.getPassword());
         if(customLoginUtility.authenticationCorrect(login)) {
 
-            return ResponseEntity.ok("Zalogowalo Cie... chyba.");
+            return ResponseEntity.ok("Pomyslnie zalogowano.");
         }
-        else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("fail.");
+        else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
     }
 
     @RequestMapping(value="/test", method=RequestMethod.GET)
