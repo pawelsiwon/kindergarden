@@ -1,20 +1,12 @@
 package pl.kielce.tu.przedszkole.przedszkole.config;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.kielce.tu.przedszkole.przedszkole.security.MyUserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
-@EnableWebSecurity
+@CrossOrigin
 public class WebConfig extends WebSecurityConfigurerAdapter {
 
 //    private MyUserDetailsService myUserDetailsService;
