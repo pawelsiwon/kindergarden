@@ -35,9 +35,6 @@ public class Person implements Serializable {
 
 	private String password;
 
-	@Column(name="PERSON_ID")
-	private BigDecimal personId;
-
 	private String pesel;
 
 	private String phonenumber;
