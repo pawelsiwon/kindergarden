@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonServiceImpl implements PersonService{
+public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
     private final PersonListContext personListContext;
@@ -27,7 +27,7 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public void addPerson(String issuerUsername, Person person) throws Exception {
         Optional<Person> personTmp = personRepository.findByLogin(person.getLogin());
-        if(personTmp.isPresent()) {
+        if (personTmp.isPresent()) {
             throw new Exception("Person with that login already exists!");
         }
 
@@ -37,7 +37,7 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public void editPerson(String issuerUsername, Person person) throws Exception {
         Optional<Person> personToEdit = personRepository.findById(person.getId());
-        if(!personToEdit.isPresent()) {
+        if (!personToEdit.isPresent()) {
             throw new Exception("Edited person does not exist!");
         }
         Person editedPerson = personToEdit.get();
@@ -58,7 +58,7 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public void deletePerson(String issuerUsername, Long personId) throws Exception {
         Optional<Person> person = personRepository.findById(personId);
-        if(!person.isPresent()) {
+        if (!person.isPresent()) {
             throw new Exception("Person to delete not found");
         }
 

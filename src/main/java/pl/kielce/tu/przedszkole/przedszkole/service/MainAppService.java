@@ -15,15 +15,20 @@ public class MainAppService {
 
     private final PersonRepository personRepository;
     private final PersonServiceImpl personServiceImpl;
-    private final PersonServiceProxy personServiceProxy;
+    private final PersonServiceTeacherProxy personServiceTeacherProxy;
+    private final PersonServiceParentProxy personServiceParentProxy;
     private Predicate<Person> isAdmin = (person -> person.getRole().equals("ADMIN"));
 
     @Autowired
-    public MainAppService(PersonRepository personRepository, PersonServiceImpl personServiceImpl, PersonServiceProxy personServiceProxy) {
+    public MainAppService(PersonRepository personRepository,
+                          PersonServiceImpl personServiceImpl,
+                          PersonServiceTeacherProxy personServiceTeacherProxy,
+                          PersonServiceParentProxy personServiceParentProxy) {
 
         this.personRepository = personRepository;
         this.personServiceImpl = personServiceImpl;
-        this.personServiceProxy = personServiceProxy;
+        this.personServiceTeacherProxy = personServiceTeacherProxy;
+        this.personServiceParentProxy = personServiceParentProxy;
     }
 
     private Person resolvePersonByLogin(String username) {
@@ -32,23 +37,25 @@ public class MainAppService {
     }
 
     private PersonService resolveInterface(Person person) {
-        if(person.getRole().equals("ADMIN")) return personServiceImpl;
-        else return personServiceProxy;
+        if (person.getRole().equals("ADMIN")) return personServiceImpl;
+        else if(person.getRole().equals("TEACHER")) return personServiceTeacherProxy;
+        else return personServiceParentProxy;
     }
 
     @Transactional
     public void addPerson(String issuingPersonUsername, Person personToAdd) throws Exception {
 
         Person issuingPerson = resolvePersonByLogin(issuingPersonUsername);
-        if(issuingPerson == null) {
+        if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
         resolveInterface(issuingPerson).addPerson(issuingPersonUsername, personToAdd);
     }
+
     @Transactional
     public void editPerson(String issuingPersonUsername, Person personToEdit) throws Exception {
         Person issuingPerson = resolvePersonByLogin(issuingPersonUsername);
-        if(issuingPerson == null) {
+        if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
         resolveInterface(issuingPerson).editPerson(issuingPersonUsername, personToEdit);
@@ -57,7 +64,7 @@ public class MainAppService {
     @Transactional
     public void deletePerson(String issuingPersonUsername, Long personId) throws Exception {
         Person issuingPerson = resolvePersonByLogin(issuingPersonUsername);
-        if(issuingPerson == null) {
+        if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
         resolveInterface(issuingPerson).deletePerson(issuingPersonUsername, personId);
@@ -65,7 +72,7 @@ public class MainAppService {
 
     public List<Person> getAdmins(String issuingPersonUsername) throws Exception {
         Person issuingPerson = resolvePersonByLogin(issuingPersonUsername);
-        if(issuingPerson == null) {
+        if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
         return resolveInterface(issuingPerson).getAdmins();
@@ -73,7 +80,7 @@ public class MainAppService {
 
     public List<Person> getTeachers(String issuingPersonUsername) throws Exception {
         Person issuingPerson = resolvePersonByLogin(issuingPersonUsername);
-        if(issuingPerson == null) {
+        if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
         return resolveInterface(issuingPerson).getTeachers();
@@ -81,7 +88,7 @@ public class MainAppService {
 
     public List<Person> getParents(String issuingPersonUsername) throws Exception {
         Person issuingPerson = resolvePersonByLogin(issuingPersonUsername);
-        if(issuingPerson == null) {
+        if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
         return resolveInterface(issuingPerson).getParents();
