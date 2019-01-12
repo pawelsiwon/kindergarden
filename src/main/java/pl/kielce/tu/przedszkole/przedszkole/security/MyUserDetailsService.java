@@ -10,7 +10,7 @@ import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
 
 import java.util.Optional;
 
-@Service
+//@Service
 public class MyUserDetailsService implements UserDetailsService {
 
     private final PersonRepository personRepository;
