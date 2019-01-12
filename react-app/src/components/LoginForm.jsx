@@ -21,7 +21,7 @@ class LoginForm extends Component {
       })
       .catch(err => {
         this.props.setSession(this.state.login, this.state.password);
-        //this.setState({ message: "Plrease try again!" });
+        this.setState({ message: "Plrease try again!" });
       });
   };
 

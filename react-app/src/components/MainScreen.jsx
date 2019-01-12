@@ -6,12 +6,13 @@ import "./../css/MainScreen.css";
 class MainScreen extends Component {
   render() {
     return (
-      <div className="container">
+      <div className="container main-screen">
         <div className="row">
           {this.props.screens.map(screen => (
             <ScreenElement
               img={screen.img}
-              buttonValue={screen.buttonValue}
+              screenTitle={screen.title}
+              buttons={screen.buttons}
               buttonOnClick={screen.chooseScreen}
             />
           ))}

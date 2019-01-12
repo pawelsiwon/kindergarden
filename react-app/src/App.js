@@ -6,37 +6,44 @@ import "bootstrap/dist/css/bootstrap.css";
 import LoginForm from "./components/LoginForm";
 import MainScreen from "./components/MainScreen";
 
+import AddPerson from "./components/person/AddPerson";
+
 class App extends Component {
   state = {
     apiHost: "http://localhost:8081",
-    login: "",
-    password: "",
+    sessionData: {
+      login: "",
+      password: ""
+    },
     screens: [
       {
         img: "/img/person.png",
-        buttonValue: "MANAGE PERSONS",
-        chooseScreen: () => this.chooseScreen("persons")
+        title: "PERSONS",
+        buttons: [
+          { title: "ADD", path: "person/add" },
+          { title: "SHOW ALL", path: "" }
+        ]
       },
       {
         img: "/img/children.png",
-        buttonValue: "MANAGE CHILDREN",
-        chooseScreen: () => this.chooseScreen("children")
+        title: "CHILDREN",
+        buttons: [{ title: "ADD", path: "" }, { title: "SHOW ALL", path: "" }]
       },
       {
         img: "/img/classroom.png",
-        buttonValue: "MANAGE CLASSROOMS",
-        chooseScreen: () => this.chooseScreen("classrooms")
+        title: "CLASSROOMS",
+        buttons: [{ title: "ADD", path: "" }, { title: "SHOW ALL", path: "" }]
       },
       {
         img: "/img/news.png",
-        buttonValue: "MANAGE NEWS",
-        chooseScreen: () => this.chooseScreen("news")
+        title: "NEWS",
+        buttons: [{ title: "ADD", path: "" }, { title: "SHOW ALL", path: "" }]
       }
     ]
   };
 
   setSessionId = (login, password) => {
-    this.setState({ login: login, password: password });
+    this.setState({ sessionData: { login, password } });
   };
 
   chooseScreen = screen => {
@@ -45,7 +52,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router path="/login">
+      <Router path="/">
         <div className="content">
           <Route
             path="/app"
@@ -57,6 +64,15 @@ class App extends Component {
               <LoginForm
                 apiHost={this.state.apiHost}
                 setSession={this.setSessionId}
+              />
+            )}
+          />
+          <Route
+            path="/person/add"
+            component={() => (
+              <AddPerson
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
               />
             )}
           />

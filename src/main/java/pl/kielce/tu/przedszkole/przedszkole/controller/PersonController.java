@@ -11,7 +11,6 @@ import pl.kielce.tu.przedszkole.przedszkole.security.custom.CustomLoginUtility;
 import pl.kielce.tu.przedszkole.przedszkole.service.MainAppService;
 
 import javax.naming.AuthenticationException;
-import javax.xml.ws.Response;
 
 @RestController
 @CrossOrigin
