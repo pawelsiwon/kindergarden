@@ -17,6 +17,7 @@ public class Payment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "payment_seq")
 	private long id;
 
 	@Temporal(TemporalType.DATE)
@@ -31,10 +32,10 @@ public class Payment implements Serializable {
 	@ManyToOne
 	private Expense expense;
 
-	//bi-directional many-to-one association to Parent
+	//bi-directional many-to-one association to Person
 	@ManyToOne
 	@JoinColumn(name="WHO_PAYED")
-	private Parent parent;
+	private Person person;
 
 	public Payment() {
 	}
@@ -43,12 +44,12 @@ public class Payment implements Serializable {
 		this.expense = expense;
 	}
 
-	public Parent getParent() {
-		return this.parent;
+	public Person getPerson() {
+		return this.person;
 	}
 
-	public void setParent(Parent parent) {
-		this.parent = parent;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
 }

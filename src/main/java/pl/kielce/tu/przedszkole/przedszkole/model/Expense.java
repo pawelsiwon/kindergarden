@@ -19,6 +19,7 @@ public class Expense implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "expense_seq")
 	private long id;
 
 	private BigDecimal cost;
