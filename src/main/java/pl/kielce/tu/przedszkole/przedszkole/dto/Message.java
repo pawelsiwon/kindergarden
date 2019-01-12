@@ -3,8 +3,7 @@ package pl.kielce.tu.przedszkole.przedszkole.dto;
 import lombok.Data;
 
 @Data
-public class LoginData {
-    String login;
-    String password;
+public class Message {
+    Integer status;
     String message;
 }
