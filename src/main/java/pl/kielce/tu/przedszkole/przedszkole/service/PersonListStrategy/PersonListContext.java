@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.kielce.tu.przedszkole.przedszkole.model.Person;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ public class PersonListContext {
     @Autowired
     public PersonListContext(PersonRepository personRepository) {
         this.personRepository = personRepository;
+        this.personListStrategyMap = new HashMap<>();
         personListStrategyMap.put(RoleEnum.ADMIN, new AdminListStrategy());
         personListStrategyMap.put(RoleEnum.TEACHER, new TeacherListStrategy());
         personListStrategyMap.put(RoleEnum.PARENT, new ParentListStrategy());
