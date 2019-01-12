@@ -15,10 +15,11 @@ import java.util.List;
  */
 @Data
 @Entity
-public class Parent implements Serializable {
+public class Person implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "person_seq")
 	private long id;
 
 	@Temporal(TemporalType.DATE)
@@ -65,27 +66,25 @@ public class Parent implements Serializable {
 		)
 	private List<Child> childs;
 
-	//bi-directional many-to-one association to Role
-	@ManyToOne
-	private Role role;
+	private String role;
 
 	//bi-directional many-to-one association to Payment
-	@OneToMany(mappedBy="parent")
+	@OneToMany(mappedBy="person")
 	private List<Payment> payments;
 
-	public Parent() {
+	public Person() {
 	}
 
 	public Payment addPayment(Payment payment) {
 		getPayments().add(payment);
-		payment.setParent(this);
+		payment.setPerson(this);
 
 		return payment;
 	}
 
 	public Payment removePayment(Payment payment) {
 		getPayments().remove(payment);
-		payment.setParent(null);
+		payment.setPerson(null);
 
 		return payment;
 	}

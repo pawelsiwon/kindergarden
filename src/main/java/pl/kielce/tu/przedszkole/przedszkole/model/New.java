@@ -17,6 +17,7 @@ public class New implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "news_seq")
 	private long id;
 
 	private String contetnt;
@@ -30,7 +31,7 @@ public class New implements Serializable {
 	//bi-directional many-to-one association to Worker
 	@ManyToOne
 	@JoinColumn(name="CREATED_BY")
-	private Worker worker;
+	private Person person;
 
 	public New() {
 	}

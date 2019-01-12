@@ -7,16 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 
 /**
@@ -29,6 +20,7 @@ public class Child implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "child_seq")
 	private long id;
 
 	@Temporal(TemporalType.DATE)
@@ -64,9 +56,9 @@ public class Child implements Serializable {
 
 	private String surname;
 
-	//bi-directional many-to-many association to Parent
+	//bi-directional many-to-many association to Person
 	@ManyToMany(mappedBy="childs")
-	private List<Parent> parents;
+	private List<Person> people;
 
 	//bi-directional many-to-one association to Class
 	@ManyToOne

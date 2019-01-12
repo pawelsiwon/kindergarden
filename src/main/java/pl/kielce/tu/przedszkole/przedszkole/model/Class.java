@@ -14,11 +14,12 @@ import java.util.List;
  */
 @Data
 @Entity
-@Table(name="\"CLASS\"")
+@Table(name="CLASSROOM")
 public class Class implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "classroom_seq")
 	private long id;
 
 	private String name;
@@ -36,7 +37,7 @@ public class Class implements Serializable {
 	//bi-directional many-to-one association to Worker
 	@ManyToOne
 	@JoinColumn(name="TEACHER")
-	private Worker worker;
+	private Person person;
 
 	public Class() {
 	}
