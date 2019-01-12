@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import Axois from "axios";
@@ -12,19 +13,21 @@ class LoginForm extends Component {
   };
 
   submitData = () => {
-    Axois.post("http://localhost:8081/api/login", this.state)
+    Axois.post(this.props.apiHost + "/api/login", this.state)
       .then((res, req) => {
-        console.log(res);
-        this.setState({ message: res.data });
+        this.setState({ message: "" });
+        this.props.setSession(this.state.login, this.state.password);
+        this.props.history.push("/app");
       })
       .catch(err => {
-        console.log(err);
+        this.props.setSession(this.state.login, this.state.password);
+        //this.setState({ message: "Plrease try again!" });
       });
   };
 
   render() {
     return (
-      <div className="container">
+      <div className="formContainer">
         <img src="/img/logo.png" alt="Logo przedszkola" />
         <Input
           className="m-2"
@@ -40,7 +43,7 @@ class LoginForm extends Component {
           className="m-2 flex-item"
           name="password"
           placeholder="Password"
-          type="text"
+          type="password"
           value={this.state.password}
           onChange={e => {
             this.setState({ password: e.target.value });
@@ -55,4 +58,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);

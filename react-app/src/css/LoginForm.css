@@ -1,6 +1,7 @@
-.container {
+.formContainer {
   display: flex;
   width: 20%;
+  min-width: 350px;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
