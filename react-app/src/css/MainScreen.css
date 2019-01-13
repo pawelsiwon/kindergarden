@@ -1,0 +1,4 @@
+.main-screen .row {
+  display: flex;
+  justify-content: space-around;
+}
