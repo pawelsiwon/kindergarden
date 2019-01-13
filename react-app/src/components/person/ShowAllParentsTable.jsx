@@ -12,21 +12,28 @@ class ShowAllParentsTable extends Component {
             <th scope="col">#</th>
             <th scope="col">First name</th>
             <th scope="col">Last name</th>
+            <th scope="pesel">Pesel</th>
+            <th scope="col">Phone number</th>
+            <th scope="col">E-mail</th>
             <th scope="col" />
           </tr>
         </thead>
         <tbody>
           {this.props.parents.map(parent => (
             <tr key={parent.id}>
-              <th scopr="row">{parent.id}</th>
-              <td>{parent.name}</td>
-              <td>{parent.lastname}</td>
-              <td className="float-right">
+              <th scope="row" className="align-middle">
+                {parent.id}
+              </th>
+              <td className="align-middle">{parent.name}</td>
+              <td className="align-middle">{parent.surname}</td>
+              <td className="align-middle">{parent.pesel}</td>
+              <td className="align-middle">{parent.phonenumber}</td>
+              <td className="align-middle">{parent.email}</td>
+              <td className="float-right align-middle">
                 <button
                   className="btn btn-success m-2"
                   onClick={e => {
                     this.props.goTo("/person/details/" + parent.id);
-                    console.log("/person/show/" + parent.id);
                   }}
                 >
                   Details
@@ -43,16 +50,18 @@ class ShowAllParentsTable extends Component {
                   className="btn btn-warning m-2"
                   onClick={e => {
                     const requestData = {
-                      sesion: this.props.session,
+                      loginData: this.props.session,
                       person: null,
                       personId: parent.id
                     };
-                    console.log(requestData);
-                    console.log(this.props.apiHost + "/person/delete");
                     Axios.post(
                       this.props.apiHost + "/person/delete",
                       requestData
-                    );
+                    )
+                      .then((res, req) => {
+                        this.props.onDelete(parent.id);
+                      })
+                      .catch(err => console.log(err));
                   }}
                 >
                   Delete

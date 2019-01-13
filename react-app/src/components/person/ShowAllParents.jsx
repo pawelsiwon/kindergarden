@@ -25,6 +25,7 @@ class ShowAllParent extends Component {
           goTo={this.goToPage}
           apiHost={this.props.apiHost}
           session={this.props.session}
+          onDelete={this.props.deletePerson}
         />
       </div>
     );
@@ -32,6 +33,12 @@ class ShowAllParent extends Component {
 
   goToPage = path => {
     this.props.history.push(path);
+  };
+
+  deletePerson = deleteId => {
+    const parents = parents.filter(parent => parent.id === deleteId);
+
+    this.setState({ parents });
   };
 
   componentDidMount() {

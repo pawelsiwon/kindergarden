@@ -32,7 +32,15 @@ class AddPerson extends Component {
   };
   render() {
     return (
-      <div className="container py-5">
+      <div className="container">
+        <div className="row">
+          <button
+            className="btn btn-primary m-2"
+            onClick={e => this.props.history.push("/app")}
+          >
+            Return
+          </button>
+        </div>
         <h4 className="mb-3">Add new person</h4>
         <form className="needs-validation">
           <div className="row">
@@ -84,7 +92,7 @@ class AddPerson extends Component {
                 type="text"
                 id="003"
                 className="form-control"
-                value={this.state.role}
+                value={this.state.phonenumber}
                 onChange={e => this.setState({ role: e.target.value })}
               />
             </div>
@@ -94,7 +102,7 @@ class AddPerson extends Component {
                 type="text"
                 id="002"
                 className="custom-select d-block w-100"
-                value={this.state.phonenumber}
+                value={this.state.role}
                 onChange={e => this.setState({ phonenumber: e.target.value })}
               >
                 <option value="">Choose role...</option>
@@ -254,7 +262,7 @@ class AddPerson extends Component {
     const requestData = {
       loginData: this.props.session,
       person: this.state,
-      personId: 0
+      personId: null
     };
     console.log(requestData);
     Axios.post(this.props.apiHost + "/person/add", requestData)
