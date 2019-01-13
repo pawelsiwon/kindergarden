@@ -195,7 +195,7 @@ class PersonDetails extends Component {
   getPersonData() {
     const requestData = {
       loginData: this.props.session,
-      personId: 2 //to-do
+      personId: this.props.match.params.personId
     };
     console.log(requestData);
     Axios.post(this.props.apiHost + "/person/profile", requestData)
