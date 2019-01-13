@@ -9,6 +9,7 @@ import MainScreen from "./components/MainScreen";
 import AddPerson from "./components/person/AddPerson";
 import ShowAllParents from "./components/person/ShowAllParents";
 import PersonDetails from "./components/person/PersonDetails";
+import PersonEdit from "./components/person/PersonEdit";
 
 class App extends Component {
   state = {
@@ -61,15 +62,6 @@ class App extends Component {
             component={() => <MainScreen screens={this.state.screens} />}
           />
           <Route
-            path="/login"
-            component={() => (
-              <LoginForm
-                apiHost={this.state.apiHost}
-                setSession={this.setSessionId}
-              />
-            )}
-          />
-          <Route
             path="/person/add"
             component={() => (
               <AddPerson
@@ -93,6 +85,24 @@ class App extends Component {
               <PersonDetails
                 apiHost={this.state.apiHost}
                 session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/person/edit/:personId"
+            component={() => (
+              <PersonEdit
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="//"
+            component={() => (
+              <LoginForm
+                apiHost={this.state.apiHost}
+                setSession={this.setSessionId}
               />
             )}
           />

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router";
+import Axios from "axios";
 
 class ShowAllParentsTable extends Component {
   state = {};
@@ -23,7 +25,7 @@ class ShowAllParentsTable extends Component {
                 <button
                   className="btn btn-success m-2"
                   onClick={e => {
-                    this.props.goTo("/person/show/details" + parent.id);
+                    this.props.goTo("/person/details/" + parent.id);
                     console.log("/person/show/" + parent.id);
                   }}
                 >
@@ -31,13 +33,27 @@ class ShowAllParentsTable extends Component {
                 </button>
                 <button
                   className="btn btn-primary m-2"
-                  onClick={e => console.log("Edit")}
+                  onClick={e =>
+                    this.props.history.push("/person/edit/" + parent.id)
+                  }
                 >
                   Edit
                 </button>
                 <button
                   className="btn btn-warning m-2"
-                  onClick={e => console.log("Delete")}
+                  onClick={e => {
+                    const requestData = {
+                      sesion: this.props.session,
+                      person: null,
+                      personId: parent.id
+                    };
+                    console.log(requestData);
+                    console.log(this.props.apiHost + "/person/delete");
+                    Axios.post(
+                      this.props.apiHost + "/person/delete",
+                      requestData
+                    );
+                  }}
                 >
                   Delete
                 </button>
@@ -50,4 +66,4 @@ class ShowAllParentsTable extends Component {
   }
 }
 
-export default ShowAllParentsTable;
+export default withRouter(ShowAllParentsTable);

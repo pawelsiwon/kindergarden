@@ -12,7 +12,10 @@ class ShowAllParent extends Component {
     return (
       <div className="container">
         <div className="row">
-          <button className="btn btn-primary" onClick={console.log(this)}>
+          <button
+            className="btn btn-primary m-2"
+            onClick={e => this.props.history.push("/app")}
+          >
             Return
           </button>
         </div>
@@ -20,6 +23,8 @@ class ShowAllParent extends Component {
         <ShowAllParentsTable
           parents={this.state.parents}
           goTo={this.goToPage}
+          apiHost={this.props.apiHost}
+          session={this.props.session}
         />
       </div>
     );
@@ -30,7 +35,6 @@ class ShowAllParent extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.apiHost + "/person/list/parents");
     Axios.post(this.props.apiHost + "/person/list/parents", this.props.session)
       .then(resp => {
         const parents = resp.data;
