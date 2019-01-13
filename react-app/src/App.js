@@ -1,42 +1,52 @@
 import React, { Component } from "react";
-import { Route, NavLink, HashRouter as Router } from "react-router-dom";
-import { withRouter } from "react-router";
+import { Route, HashRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import LoginForm from "./components/LoginForm";
 import MainScreen from "./components/MainScreen";
 
+import AddPerson from "./components/person/AddPerson";
+import ShowAllParents from "./components/person/ShowAllParents";
+import PersonDetails from "./components/person/PersonDetails";
+import PersonEdit from "./components/person/PersonEdit";
+
 class App extends Component {
   state = {
     apiHost: "http://localhost:8081",
-    login: "",
-    password: "",
+    sessionData: {
+      login: "psiwon",
+      password: "psiwon@"
+    },
     screens: [
       {
         img: "/img/person.png",
-        buttonValue: "MANAGE PERSONS",
-        chooseScreen: () => this.chooseScreen("persons")
+        title: "PERSONS",
+        buttons: [
+          { title: "ADD", path: "person/add" },
+          { title: "SHOW ALL", path: "person/show" }
+        ]
       },
       {
         img: "/img/children.png",
-        buttonValue: "MANAGE CHILDREN",
-        chooseScreen: () => this.chooseScreen("children")
+        title: "CHILDREN",
+        buttons: [{ title: "ADD", path: "" }, { title: "SHOW ALL", path: "" }]
       },
       {
         img: "/img/classroom.png",
-        buttonValue: "MANAGE CLASSROOMS",
-        chooseScreen: () => this.chooseScreen("classrooms")
+        title: "CLASSROOMS",
+        buttons: [{ title: "ADD", path: "" }, { title: "SHOW ALL", path: "" }]
       },
       {
         img: "/img/news.png",
-        buttonValue: "MANAGE NEWS",
-        chooseScreen: () => this.chooseScreen("news")
+        title: "NEWS",
+        buttons: [{ title: "ADD", path: "" }, { title: "SHOW ALL", path: "" }]
       }
     ]
   };
 
   setSessionId = (login, password) => {
-    this.setState({ login: login, password: password });
+    this.setState({ sessionData: { login, password } });
   };
 
   chooseScreen = screen => {
@@ -45,14 +55,50 @@ class App extends Component {
 
   render() {
     return (
-      <Router path="/login">
+      <Router path="/" history={new BrowserRouter()}>
         <div className="content">
           <Route
             path="/app"
             component={() => <MainScreen screens={this.state.screens} />}
           />
           <Route
-            path="/login"
+            path="/person/add"
+            component={() => (
+              <AddPerson
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/person/show"
+            component={() => (
+              <ShowAllParents
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/person/details/:personId"
+            component={() => (
+              <PersonDetails
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/person/edit/:personId"
+            component={() => (
+              <PersonEdit
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="//"
             component={() => (
               <LoginForm
                 apiHost={this.state.apiHost}
