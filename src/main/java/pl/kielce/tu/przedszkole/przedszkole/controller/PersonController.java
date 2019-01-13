@@ -11,7 +11,6 @@ import pl.kielce.tu.przedszkole.przedszkole.security.custom.CustomLoginUtility;
 import pl.kielce.tu.przedszkole.przedszkole.service.MainAppService;
 
 import javax.naming.AuthenticationException;
-import javax.xml.ws.Response;
 
 @RestController
 @CrossOrigin
@@ -125,6 +124,19 @@ public class PersonController {
         }
         catch(Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    ResponseEntity<?> getPersonById(@RequestBody PersonActionDto personActionDto) {
+        Message message;
+        try {
+            customLoginUtility.validateAuthentication(personActionDto.getLoginData());
+            return ResponseEntity.ok(mainAppService.getPersonById(personActionDto.getLoginData().getLogin()
+                                                                            ,personActionDto.getPersonId()));
+        } catch(AuthenticationException e) {
+            message = new Message(401, "Invalid auth data");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         }
     }
 }
