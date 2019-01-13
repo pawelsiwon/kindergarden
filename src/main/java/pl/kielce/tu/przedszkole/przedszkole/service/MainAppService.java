@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.kielce.tu.przedszkole.przedszkole.model.Child;
 import pl.kielce.tu.przedszkole.przedszkole.model.Person;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
+import pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand.AddChildCommand;
+import pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand.ChildCommand;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +20,7 @@ public class MainAppService {
     private final PersonServiceImpl personServiceImpl;
     private final PersonServiceTeacherProxy personServiceTeacherProxy;
     private final PersonServiceParentProxy personServiceParentProxy;
-    private Predicate<Person> isAdmin = (person -> person.getRole().equals("ADMIN"));
+    private Predicate<Person> isAdmin = (person -> person.getRole().equalsIgnoreCase("ADMIN"));
 
     @Autowired
     public MainAppService(PersonRepository personRepository,
