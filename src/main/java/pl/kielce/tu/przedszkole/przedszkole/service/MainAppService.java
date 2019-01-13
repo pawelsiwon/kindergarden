@@ -37,8 +37,8 @@ public class MainAppService {
     }
 
     private PersonService resolveInterface(Person person) {
-        if (person.getRole().equals("ADMIN")) return personServiceImpl;
-        else if(person.getRole().equals("TEACHER")) return personServiceTeacherProxy;
+        if (person.getRole().equalsIgnoreCase("ADMIN")) return personServiceImpl;
+        else if(person.getRole().equalsIgnoreCase("TEACHER")) return personServiceTeacherProxy;
         else return personServiceParentProxy;
     }
 
