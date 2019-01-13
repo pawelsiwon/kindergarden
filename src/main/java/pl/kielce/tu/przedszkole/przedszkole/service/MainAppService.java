@@ -4,14 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kielce.tu.przedszkole.przedszkole.model.Child;
+import pl.kielce.tu.przedszkole.przedszkole.model.New;
 import pl.kielce.tu.przedszkole.przedszkole.model.Person;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
-import pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand.AddChildCommand;
-import pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand.ChildCommand;
+import pl.kielce.tu.przedszkole.przedszkole.service.NewsService.NewsService;
+import pl.kielce.tu.przedszkole.przedszkole.service.NewsService.NewsServiceImpl;
+import pl.kielce.tu.przedszkole.przedszkole.service.NewsService.NewsServiceParentProxy;
+import pl.kielce.tu.przedszkole.przedszkole.service.NewsService.NewsServiceTeacherProxy;
+import pl.kielce.tu.przedszkole.przedszkole.service.PersonService.PersonService;
+import pl.kielce.tu.przedszkole.przedszkole.service.PersonService.PersonServiceImpl;
+import pl.kielce.tu.przedszkole.przedszkole.service.PersonService.PersonServiceParentProxy;
+import pl.kielce.tu.przedszkole.przedszkole.service.PersonService.PersonServiceTeacherProxy;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Service
 public class MainAppService {
@@ -20,18 +27,26 @@ public class MainAppService {
     private final PersonServiceImpl personServiceImpl;
     private final PersonServiceTeacherProxy personServiceTeacherProxy;
     private final PersonServiceParentProxy personServiceParentProxy;
-    private Predicate<Person> isAdmin = (person -> person.getRole().equalsIgnoreCase("ADMIN"));
+    private final NewsServiceImpl newsServiceImpl;
+    private final NewsServiceTeacherProxy newsServiceTeacherProxy;
+    private final NewsServiceParentProxy newsServiceParentProxy;
 
     @Autowired
     public MainAppService(PersonRepository personRepository,
                           PersonServiceImpl personServiceImpl,
                           PersonServiceTeacherProxy personServiceTeacherProxy,
-                          PersonServiceParentProxy personServiceParentProxy) {
+                          PersonServiceParentProxy personServiceParentProxy,
+                          NewsServiceImpl newsServiceImpl,
+                          NewsServiceTeacherProxy newsServiceTeacherProxy,
+                          NewsServiceParentProxy newsServiceParentProxy) {
 
         this.personRepository = personRepository;
         this.personServiceImpl = personServiceImpl;
         this.personServiceTeacherProxy = personServiceTeacherProxy;
         this.personServiceParentProxy = personServiceParentProxy;
+        this.newsServiceImpl = newsServiceImpl;
+        this.newsServiceTeacherProxy = newsServiceTeacherProxy;
+        this.newsServiceParentProxy = newsServiceParentProxy;
     }
 
     private Person resolvePersonByLogin(String username) {
@@ -39,10 +54,17 @@ public class MainAppService {
         return person.orElse(null);
     }
 
-    private PersonService resolveInterface(Person person) {
+    private PersonService resolvePersonInterface(Person person) {
         if (person.getRole().equalsIgnoreCase("ADMIN")) return personServiceImpl;
         else if(person.getRole().equalsIgnoreCase("TEACHER")) return personServiceTeacherProxy;
         else return personServiceParentProxy;
+    }
+
+    private NewsService resolveNewsInterface(Person person) {
+        if(person.getRole().equalsIgnoreCase("ADMIN")) return newsServiceImpl;
+        else if(person.getRole().equalsIgnoreCase("TEACHER")) return newsServiceTeacherProxy;
+        else if(person.getRole().equalsIgnoreCase("PARENT")) return newsServiceParentProxy;
+        else return null;
     }
 
     @Transactional
@@ -51,7 +73,7 @@ public class MainAppService {
         if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
-        resolveInterface(issuingPerson).addPerson(issuingPersonUsername, personToAdd);
+        resolvePersonInterface(issuingPerson).addPerson(issuingPersonUsername, personToAdd);
     }
 
     @Transactional
@@ -60,7 +82,7 @@ public class MainAppService {
         if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
-        resolveInterface(issuingPerson).editPerson(issuingPersonUsername, personToEdit);
+        resolvePersonInterface(issuingPerson).editPerson(issuingPersonUsername, personToEdit);
     }
 
     @Transactional
@@ -69,26 +91,26 @@ public class MainAppService {
         if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
-        resolveInterface(issuingPerson).deletePerson(issuingPersonUsername, personId);
+        resolvePersonInterface(issuingPerson).deletePerson(issuingPersonUsername, personId);
     }
 
     @Transactional
     public void addChild(String issuingPersonUsername, Child child) throws Exception {
         Person issuingPerson = resolvePersonByLogin(issuingPersonUsername);
 
-        resolveInterface(issuingPerson).addChild(issuingPersonUsername, child);
+        resolvePersonInterface(issuingPerson).addChild(issuingPersonUsername, child);
     }
 
     @Transactional
     public void editChild(String issuingPersonUsername, Child child) throws Exception {
         Person issuingPerson = resolvePersonByLogin(issuingPersonUsername);
-        resolveInterface(issuingPerson).editChild(issuingPersonUsername, child);
+        resolvePersonInterface(issuingPerson).editChild(issuingPersonUsername, child);
     }
 
     @Transactional
     public void deleteChild(String issuingPersonUsername, Long childId) throws Exception {
         Person issuingPerson = resolvePersonByLogin(issuingPersonUsername);
-        resolveInterface(issuingPerson).deleteChild(issuingPersonUsername, childId);
+        resolvePersonInterface(issuingPerson).deleteChild(issuingPersonUsername, childId);
     }
 
     public List<Person> getAdmins(String issuingPersonUsername) throws Exception {
@@ -96,7 +118,7 @@ public class MainAppService {
         if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
-        return resolveInterface(issuingPerson).getAdmins();
+        return resolvePersonInterface(issuingPerson).getAdmins();
     }
 
     public List<Person> getTeachers(String issuingPersonUsername) throws Exception {
@@ -104,7 +126,7 @@ public class MainAppService {
         if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
-        return resolveInterface(issuingPerson).getTeachers();
+        return resolvePersonInterface(issuingPerson).getTeachers();
     }
 
     public List<Person> getParents(String issuingPersonUsername) throws Exception {
@@ -112,19 +134,42 @@ public class MainAppService {
         if (issuingPerson == null) {
             throw new Exception("Issuing user not found");
         }
-        return resolveInterface(issuingPerson).getParents();
+        return resolvePersonInterface(issuingPerson).getParents();
     }
 
     public List<Child> getChildren(String issuingPersonUsername) throws Exception {
         Person issuingPerson = resolvePersonByLogin(issuingPersonUsername);
-        return resolveInterface(issuingPerson).getChildren();
+        return resolvePersonInterface(issuingPerson).getChildren();
     }
 
     public Person getPersonById(String issuingPersonUsername, Long personId) {
-        return resolveInterface(resolvePersonByLogin(issuingPersonUsername)).getPersonById(personId);
+        return resolvePersonInterface(resolvePersonByLogin(issuingPersonUsername)).getPersonById(personId);
     }
 
     public Child getChildById(String issuingPersonUsername, Long childId) {
-        return resolveInterface(resolvePersonByLogin(issuingPersonUsername)).getChildById(childId);
+        return resolvePersonInterface(resolvePersonByLogin(issuingPersonUsername)).getChildById(childId);
+    }
+
+    @Transactional
+    public void addNews(String issuingPersonUsername, New news) throws Exception {
+        Objects.requireNonNull(resolveNewsInterface(resolvePersonByLogin(issuingPersonUsername))).addNews(issuingPersonUsername, news);
+    }
+
+    @Transactional
+    public void editNews(String issuingPersonUsername, New news) throws Exception {
+        Objects.requireNonNull(resolveNewsInterface(resolvePersonByLogin(issuingPersonUsername))).editNews(issuingPersonUsername, news);
+    }
+
+    @Transactional
+    public void deleteNews(String issuingPersonUsername, Long newsId) throws Exception {
+        Objects.requireNonNull(resolveNewsInterface(resolvePersonByLogin(issuingPersonUsername))).deleteNews(issuingPersonUsername, newsId);
+    }
+
+    public List<New> getNewsList(String issuingPersonUsername) {
+        return Objects.requireNonNull(resolveNewsInterface(resolvePersonByLogin(issuingPersonUsername))).getNewsList();
+    }
+
+    public New getNewsById(String issuingPersonUsername, Long newsId) {
+        return Objects.requireNonNull(resolveNewsInterface(resolvePersonByLogin(issuingPersonUsername))).getNewsById(newsId);
     }
 }

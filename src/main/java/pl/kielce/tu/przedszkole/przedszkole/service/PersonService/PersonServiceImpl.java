@@ -1,10 +1,12 @@
-package pl.kielce.tu.przedszkole.przedszkole.service;
+package pl.kielce.tu.przedszkole.przedszkole.service.PersonService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.kielce.tu.przedszkole.przedszkole.model.Child;
+import pl.kielce.tu.przedszkole.przedszkole.model.New;
 import pl.kielce.tu.przedszkole.przedszkole.model.Person;
 import pl.kielce.tu.przedszkole.przedszkole.repository.ChildRepository;
+import pl.kielce.tu.przedszkole.przedszkole.repository.NewsRepository;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
 import pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand.AddChildCommand;
 import pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand.ChildCommand;
@@ -25,17 +27,20 @@ public class PersonServiceImpl implements PersonService {
     private final ChildCommand addChildCommand;
     private final ChildCommand editChildCommand;
     private final ChildCommand deleteChildCommand;
+    private final NewsRepository newsRepository;
 
     @Autowired
     public PersonServiceImpl(PersonRepository personRepository,
                              PersonListContext personListContext,
-                             ChildRepository childRepository) {
+                             ChildRepository childRepository,
+                             NewsRepository newsRepository) {
         this.personRepository = personRepository;
         this.personListContext = personListContext;
         this.childRepository = childRepository;
         addChildCommand = new AddChildCommand(childRepository);
         editChildCommand = new EditChildCommand(childRepository);
         deleteChildCommand = new DeleteChildCommand(childRepository);
+        this.newsRepository = newsRepository;
     }
 
 
