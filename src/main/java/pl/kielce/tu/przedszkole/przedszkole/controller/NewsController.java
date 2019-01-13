@@ -38,6 +38,7 @@ public class NewsController {
             message = new Message(401, "Invalid credentials.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         } catch(Exception e) {
+            e.printStackTrace();
             message = new Message(500, "Something went terribly wrong.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
         }
@@ -56,6 +57,7 @@ public class NewsController {
             message = new Message(401, "Invalid credentials.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         } catch(Exception e) {
+            e.printStackTrace();
             message = new Message(500, "Something went terribly wrong.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
         }
@@ -74,6 +76,7 @@ public class NewsController {
             message = new Message(401, "Invalid credentials.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         } catch(Exception e) {
+            e.printStackTrace();
             message = new Message(500, "Something went terribly wrong.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
         }

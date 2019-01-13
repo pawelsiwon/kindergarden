@@ -38,6 +38,7 @@ public class ChildController {
             message = new Message(401, "Invalid auth data");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         } catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -55,13 +56,14 @@ public class ChildController {
             message = new Message(401, "Invalid auth data");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         } catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @CrossOrigin
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    ResponseEntity<?> deletePerson(@RequestBody ChildActionDto childActionDto) {
+    ResponseEntity<?> deleteChild(@RequestBody ChildActionDto childActionDto) {
         Message message;
         try {
             customLoginUtility.validateAuthentication(childActionDto.getLoginData());
@@ -73,6 +75,7 @@ public class ChildController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         }
         catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -89,6 +92,7 @@ public class ChildController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         }
         catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

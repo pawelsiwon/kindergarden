@@ -11,7 +11,7 @@ public class TeacherListStrategy implements PersonListStrategy {
     public List<Person> getList(PersonRepository personRepository) {
         return personRepository.findAll()
                 .stream()
-                .filter(person -> person.getRole().equals("TEACHER"))
+                .filter(person -> person.getRole().equalsIgnoreCase("TEACHER"))
                 .collect(Collectors.toList());
     }
 }

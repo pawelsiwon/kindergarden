@@ -39,6 +39,7 @@ public class PersonController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         }
         catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -57,6 +58,7 @@ public class PersonController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         }
         catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -75,10 +77,12 @@ public class PersonController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         }
         catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/list/admins", method = RequestMethod.POST)
     ResponseEntity<?> getAdminsList(@RequestBody LoginData loginData) {
         Message message;
@@ -91,11 +95,12 @@ public class PersonController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         }
         catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-
+    @CrossOrigin
     @RequestMapping(value = "/list/teachers", method = RequestMethod.POST)
     ResponseEntity<?> getTeachersList(@RequestBody LoginData loginData) {
         Message message;
@@ -108,9 +113,12 @@ public class PersonController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         }
         catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @CrossOrigin
     @RequestMapping(value = "/list/parents", method = RequestMethod.POST)
     ResponseEntity<?> getParentsList(@RequestBody LoginData loginData) {
         Message message;
@@ -123,10 +131,12 @@ public class PersonController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         }
         catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
     ResponseEntity<?> getPersonById(@RequestBody PersonActionDto personActionDto) {
         Message message;
