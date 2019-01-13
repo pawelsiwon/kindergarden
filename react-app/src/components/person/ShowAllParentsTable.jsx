@@ -22,7 +22,7 @@ class ShowAllParentsTable extends Component {
           {this.props.parents.map(parent => (
             <tr key={parent.id}>
               <th scope="row" className="align-middle">
-                {parent.id}
+                {this.props.parents.indexOf(parent) + 1}
               </th>
               <td className="align-middle">{parent.name}</td>
               <td className="align-middle">{parent.surname}</td>
