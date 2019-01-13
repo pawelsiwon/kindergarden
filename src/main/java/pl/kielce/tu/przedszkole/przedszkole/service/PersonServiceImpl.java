@@ -6,6 +6,10 @@ import pl.kielce.tu.przedszkole.przedszkole.model.Child;
 import pl.kielce.tu.przedszkole.przedszkole.model.Person;
 import pl.kielce.tu.przedszkole.przedszkole.repository.ChildRepository;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
+import pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand.AddChildCommand;
+import pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand.ChildCommand;
+import pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand.DeleteChildCommand;
+import pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand.EditChildCommand;
 import pl.kielce.tu.przedszkole.przedszkole.service.PersonListStrategy.PersonListContext;
 import pl.kielce.tu.przedszkole.przedszkole.service.PersonListStrategy.RoleEnum;
 
@@ -18,6 +22,9 @@ public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
     private final PersonListContext personListContext;
     private final ChildRepository childRepository;
+    private final ChildCommand addChildCommand;
+    private final ChildCommand editChildCommand;
+    private final ChildCommand deleteChildCommand;
 
     @Autowired
     public PersonServiceImpl(PersonRepository personRepository,
@@ -26,6 +33,9 @@ public class PersonServiceImpl implements PersonService {
         this.personRepository = personRepository;
         this.personListContext = personListContext;
         this.childRepository = childRepository;
+        addChildCommand = new AddChildCommand(childRepository);
+        editChildCommand = new EditChildCommand(childRepository);
+        deleteChildCommand = new DeleteChildCommand(childRepository);
     }
 
 
@@ -72,7 +82,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void addChild(String issuerUsername, Child child) throws Exception {
-        childRepository.save(child);
+        addChildCommand.execute(child);
     }
 
     @Override
@@ -83,20 +93,7 @@ public class PersonServiceImpl implements PersonService {
             throw new Exception("There is no child with that ID to edit!");
         }
 
-        Child childBeingEdited = childToEdit.get();
-        childBeingEdited.setName(child.getName());
-        childBeingEdited.setSurname(child.getSurname());
-        childBeingEdited.setCity(child.getCity());
-        childBeingEdited.setStreet(child.getCity());
-        childBeingEdited.setStreetAddress(child.getStreetAddress());
-        childBeingEdited.setPostale(child.getPostale());
-        childBeingEdited.setAdmissionDate(child.getAdmissionDate());
-        childBeingEdited.setBirthdate(child.getBirthdate());
-        childBeingEdited.setClazz(child.getClazz());
-        childBeingEdited.setPayments(child.getPayments());
-        childBeingEdited.setPeople(child.getPeople());
-
-        childRepository.save(childBeingEdited);
+        editChildCommand.execute(child);
     }
 
     @Override
@@ -106,7 +103,7 @@ public class PersonServiceImpl implements PersonService {
             throw new Exception("Child to delete not found!");
         }
 
-        childRepository.delete(childToDelete.get());
+        deleteChildCommand.execute(childToDelete.get());
     }
 
     @Override
