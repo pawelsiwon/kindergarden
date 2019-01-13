@@ -1,19 +1,21 @@
 import React, { Component } from "react";
-import { Route, NavLink, HashRouter as Router } from "react-router-dom";
-import { withRouter } from "react-router";
+import { Route, HashRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import LoginForm from "./components/LoginForm";
 import MainScreen from "./components/MainScreen";
 
 import AddPerson from "./components/person/AddPerson";
+import ShowAllParents from "./components/person/ShowAllParents";
+import PersonDetails from "./components/person/PersonDetails";
 
 class App extends Component {
   state = {
     apiHost: "http://localhost:8081",
     sessionData: {
-      login: "",
-      password: ""
+      login: "psiwon",
+      password: "psiwon@"
     },
     screens: [
       {
@@ -21,7 +23,7 @@ class App extends Component {
         title: "PERSONS",
         buttons: [
           { title: "ADD", path: "person/add" },
-          { title: "SHOW ALL", path: "" }
+          { title: "SHOW ALL", path: "person/show" }
         ]
       },
       {
@@ -52,7 +54,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router path="/">
+      <Router path="/" history={new BrowserRouter()}>
         <div className="content">
           <Route
             path="/app"
@@ -71,6 +73,24 @@ class App extends Component {
             path="/person/add"
             component={() => (
               <AddPerson
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/person/show"
+            component={() => (
+              <ShowAllParents
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/person/details/:personId"
+            component={() => (
+              <PersonDetails
                 apiHost={this.state.apiHost}
                 session={this.state.sessionData}
               />
