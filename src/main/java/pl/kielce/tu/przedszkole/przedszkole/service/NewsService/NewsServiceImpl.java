@@ -6,8 +6,8 @@ import pl.kielce.tu.przedszkole.przedszkole.model.Person;
 import pl.kielce.tu.przedszkole.przedszkole.repository.NewsRepository;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class NewsServiceImpl implements NewsService {
@@ -27,6 +27,11 @@ public class NewsServiceImpl implements NewsService {
         }
         Person author = person.get();
         news.setPerson(author);
+
+
+
+
+        news.setCreatedDate(new Date());
         newsRepository.save(news);
     }
 
@@ -75,7 +80,10 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<New> getNewsList() {
-        return newsRepository.findAll();
+        return newsRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(New::getCreatedDate).thenComparing(New::getId).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override
