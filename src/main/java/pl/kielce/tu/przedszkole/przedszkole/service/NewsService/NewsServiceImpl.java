@@ -7,12 +7,14 @@ import pl.kielce.tu.przedszkole.przedszkole.repository.NewsRepository;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
 public class NewsServiceImpl implements NewsService {
     private final PersonRepository personRepository;
     private final NewsRepository newsRepository;
+    private final Predicate<New> dateNotNull = (news) -> news.getCreatedDate() != null;
 
     public NewsServiceImpl(PersonRepository personRepository, NewsRepository newsRepository) {
         this.personRepository = personRepository;
@@ -82,6 +84,7 @@ public class NewsServiceImpl implements NewsService {
     public List<New> getNewsList() {
         return newsRepository.findAll()
                 .stream()
+                .filter(dateNotNull)
                 .sorted(Comparator.comparing(New::getCreatedDate).thenComparing(New::getId).reversed())
                 .collect(Collectors.toList());
     }
