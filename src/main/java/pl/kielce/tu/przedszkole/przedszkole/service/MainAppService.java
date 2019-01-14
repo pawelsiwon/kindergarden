@@ -4,9 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kielce.tu.przedszkole.przedszkole.model.Child;
+import pl.kielce.tu.przedszkole.przedszkole.model.Class;
 import pl.kielce.tu.przedszkole.przedszkole.model.New;
 import pl.kielce.tu.przedszkole.przedszkole.model.Person;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
+import pl.kielce.tu.przedszkole.przedszkole.service.ClassService.ClassService;
+import pl.kielce.tu.przedszkole.przedszkole.service.ClassService.ClassServiceImpl;
+import pl.kielce.tu.przedszkole.przedszkole.service.ClassService.ClassServiceParentProxy;
+import pl.kielce.tu.przedszkole.przedszkole.service.ClassService.ClassServiceTeacherProxy;
 import pl.kielce.tu.przedszkole.przedszkole.service.NewsService.NewsService;
 import pl.kielce.tu.przedszkole.przedszkole.service.NewsService.NewsServiceImpl;
 import pl.kielce.tu.przedszkole.przedszkole.service.NewsService.NewsServiceParentProxy;
@@ -30,6 +35,10 @@ public class MainAppService {
     private final NewsServiceImpl newsServiceImpl;
     private final NewsServiceTeacherProxy newsServiceTeacherProxy;
     private final NewsServiceParentProxy newsServiceParentProxy;
+    private final ClassServiceImpl classServiceImpl;
+    private final ClassServiceTeacherProxy classServiceTeacherProxy;
+    private final ClassServiceParentProxy classServiceParentProxy;
+
 
     @Autowired
     public MainAppService(PersonRepository personRepository,
@@ -38,7 +47,10 @@ public class MainAppService {
                           PersonServiceParentProxy personServiceParentProxy,
                           NewsServiceImpl newsServiceImpl,
                           NewsServiceTeacherProxy newsServiceTeacherProxy,
-                          NewsServiceParentProxy newsServiceParentProxy) {
+                          NewsServiceParentProxy newsServiceParentProxy,
+                          ClassServiceImpl classServiceImpl,
+                          ClassServiceTeacherProxy classServiceTeacherProxy,
+                          ClassServiceParentProxy classServiceParentProxy) {
 
         this.personRepository = personRepository;
         this.personServiceImpl = personServiceImpl;
@@ -47,6 +59,9 @@ public class MainAppService {
         this.newsServiceImpl = newsServiceImpl;
         this.newsServiceTeacherProxy = newsServiceTeacherProxy;
         this.newsServiceParentProxy = newsServiceParentProxy;
+        this.classServiceImpl = classServiceImpl;
+        this.classServiceTeacherProxy = classServiceTeacherProxy;
+        this.classServiceParentProxy = classServiceParentProxy;
     }
 
     private Person resolvePersonByLogin(String username) {
@@ -64,6 +79,13 @@ public class MainAppService {
         if(person.getRole().equalsIgnoreCase("ADMIN")) return newsServiceImpl;
         else if(person.getRole().equalsIgnoreCase("TEACHER")) return newsServiceTeacherProxy;
         else if(person.getRole().equalsIgnoreCase("PARENT")) return newsServiceParentProxy;
+        else return null;
+    }
+
+    private ClassService resolveClassInterface(Person person) {
+        if(person.getRole().equalsIgnoreCase("ADMIN")) return classServiceImpl;
+        else if(person.getRole().equalsIgnoreCase("TEACHER")) return classServiceTeacherProxy;
+        else if(person.getRole().equalsIgnoreCase("PARENT")) return classServiceParentProxy;
         else return null;
     }
 
@@ -171,5 +193,28 @@ public class MainAppService {
 
     public New getNewsById(String issuingPersonUsername, Long newsId) {
         return Objects.requireNonNull(resolveNewsInterface(resolvePersonByLogin(issuingPersonUsername))).getNewsById(newsId);
+    }
+
+    @Transactional
+    public void addClass(String issuingPersonUsername, Class addedClass) throws Exception {
+        resolveClassInterface(resolvePersonByLogin(issuingPersonUsername)).addClass(issuingPersonUsername, addedClass);
+    }
+
+    @Transactional
+    public void editClass(String issuingPersonUsername, Class editedClass) throws Exception {
+        resolveClassInterface(resolvePersonByLogin(issuingPersonUsername)).editClass(issuingPersonUsername, editedClass);
+    }
+
+    @Transactional
+    public void deleteClass(String issuingPersonUsername, Long classId) throws Exception {
+        resolveClassInterface(resolvePersonByLogin(issuingPersonUsername)).deleteClass(issuingPersonUsername, classId);
+    }
+
+    public List<Class> getClasses(String issuingPersonUsername) {
+        return resolveClassInterface(resolvePersonByLogin(issuingPersonUsername)).getClasses();
+    }
+
+    public Class getClassById(String issuingPersonUsername, Long classId) {
+        return resolveClassInterface(resolvePersonByLogin(issuingPersonUsername)).getClassById(classId);
     }
 }
