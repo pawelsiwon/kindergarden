@@ -12,7 +12,7 @@ public class ParentListStrategy implements PersonListStrategy {
         return personRepository
                 .findAll()
                 .stream()
-                .filter(person -> person.getRole().equalsIgnoreCase("PARENT"))
+                .filter(person -> "PARENT".equalsIgnoreCase(person.getRole()))
                 .collect(Collectors.toList());
     }
 

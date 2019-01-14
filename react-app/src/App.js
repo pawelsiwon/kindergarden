@@ -21,17 +21,10 @@ class App extends Component {
     apiHost: "http://localhost:8081",
     sessionData: {
       login: "psiwon",
-      password: "psiwon@"
+      password: "psiwon@",
+      message: ""
     },
     screens: [
-      {
-        img: "/img/person.png",
-        title: "PERSONS",
-        buttons: [
-          { title: "ADD", path: "person/add" },
-          { title: "SHOW ALL", path: "person/show" }
-        ]
-      },
       {
         img: "/img/children.png",
         title: "CHILDREN",
@@ -82,14 +75,41 @@ class App extends Component {
             )}
           />
           <Route
-            path="/person/show"
+            path="/parents/show"
             component={() => (
               <ShowAllParents
+                apiLink="/person/list/parents"
+                title="All parents"
                 apiHost={this.state.apiHost}
                 session={this.state.sessionData}
               />
             )}
           />
+
+          <Route
+            path="/teachers/show"
+            component={() => (
+              <ShowAllParents
+                apiLink="/person/list/teachers"
+                title="All teachers"
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+
+          <Route
+            path="/admins/show"
+            component={() => (
+              <ShowAllParents
+                apiLink="/person/list/admins"
+                title="All admins"
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+
           <Route
             path="/person/details/:personId"
             component={() => (

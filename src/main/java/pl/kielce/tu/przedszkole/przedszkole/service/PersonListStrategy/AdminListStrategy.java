@@ -11,7 +11,7 @@ public class AdminListStrategy implements PersonListStrategy {
     public List<Person> getList(PersonRepository personRepository) {
         return personRepository.findAll()
                 .stream()
-                .filter(person -> person.getRole().equalsIgnoreCase("ADMIN"))
+                .filter(person -> "ADMIN".equalsIgnoreCase(person.getRole()))
                 .collect(Collectors.toList());
     }
 }
