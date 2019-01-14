@@ -41,11 +41,9 @@ class ShowAllParent extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.apiHost + "/child/list", this.props.session);
     Axios.post(this.props.apiHost + "/child/list", this.props.session)
       .then(resp => {
         const children = resp.data;
-        console.log(children);
         this.setState({ children });
       })
       .catch(err => console.log(err));

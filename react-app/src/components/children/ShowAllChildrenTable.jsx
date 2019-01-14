@@ -13,6 +13,7 @@ class ShowAllParentsTable extends Component {
             <th scope="col">First name</th>
             <th scope="col">Last name</th>
             <th scope="pesel">Pesel</th>
+            <th scope="pesel">Comments</th>
             <th scope="col" />
           </tr>
         </thead>
@@ -25,8 +26,7 @@ class ShowAllParentsTable extends Component {
               <td className="align-middle">{child.name}</td>
               <td className="align-middle">{child.surname}</td>
               <td className="align-middle">{child.pesel}</td>
-              <td className="align-middle">{child.phonenumber}</td>
-              <td className="align-middle">{child.email}</td>
+              <td className="align-middle">{child.comments}</td>
               <td className="float-right align-middle">
                 <button
                   className="btn btn-success m-2"
@@ -49,8 +49,8 @@ class ShowAllParentsTable extends Component {
                   onClick={e => {
                     const requestData = {
                       loginData: this.props.session,
-                      person: null,
-                      personId: child.id
+                      child: null,
+                      childId: child.id
                     };
                     Axios.post(
                       this.props.apiHost + "/child/delete",

@@ -13,6 +13,8 @@ import PersonEdit from "./components/person/PersonEdit";
 import ShowAllChildren from "./components/children/ShowAllChildren";
 import AddChild from "./components/children/AddChild";
 import ChildDetails from "./components/children/ChildDetails";
+import AddNews from "./components/news/AddNews";
+import ShowNews from "./components/news/ShowNews";
 
 class App extends Component {
   state = {
@@ -46,7 +48,10 @@ class App extends Component {
       {
         img: "/img/news.png",
         title: "NEWS",
-        buttons: [{ title: "ADD", path: "" }, { title: "SHOW ALL", path: "" }]
+        buttons: [
+          { title: "ADD", path: "/news/add" },
+          { title: "SHOW ALL", path: "/news/show" }
+        ]
       }
     ]
   };
@@ -126,6 +131,25 @@ class App extends Component {
             path="/child/details/:childId"
             component={() => (
               <ChildDetails
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+
+          <Route
+            path="/news/add"
+            component={() => (
+              <AddNews
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/news/show"
+            component={() => (
+              <ShowNews
                 apiHost={this.state.apiHost}
                 session={this.state.sessionData}
               />

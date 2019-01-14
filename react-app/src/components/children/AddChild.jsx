@@ -308,7 +308,7 @@ class AddChild extends Component {
       child: this.state,
       childId: null
     };
-    console.log(requestData);
+
     Axios.post(this.props.apiHost + "/child/add", requestData)
       .then(
         this.setState({
