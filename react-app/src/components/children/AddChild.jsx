@@ -19,6 +19,7 @@ class AddChild extends Component {
     parents: [],
     people: [],
     clazz: "",
+    clazzes: [],
 
     city: "",
     postale: "",
@@ -124,17 +125,25 @@ class AddChild extends Component {
             <div className="row col-md-8 own-column">
               <div className="col-md-6 own-column-no-padding-right">
                 <label htmlFor="">Classroom</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="class"
-                  value={this.state.classroom}
+                <select
+                  className="custom-select d-block w-100"
+                  value={this.state.clazz}
+                  id="clazz"
                   onChange={e =>
                     this.setState({ [e.target.id]: e.target.value })
                   }
-                />
-                <label htmlFor="">Form</label>
-                <input type="text" className="form-control" />
+                >
+                  <option>Choose classroom...</option>
+                  {this.state.clazzes.map(clazz => (
+                    <option key={clazz.id + "_class"} value={clazz.id}>
+                      {clazz.name +
+                        " - " +
+                        clazz.yearStart +
+                        "/" +
+                        clazz.yearEnd}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="col-md-6 own-column-right">
                 <label htmlFor="">Parent 1</label>
@@ -293,6 +302,14 @@ class AddChild extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props.apiHost + "/class/list", this.props.session);
+    Axios.post(this.props.apiHost + "/class/list", this.props.session)
+      .then((res, req) => {
+        console.log(res.data);
+        this.setState({ clazzes: res.data });
+      })
+      .catch(err => console.log(err));
+
     Axios.post(this.props.apiHost + "/person/list/parents", this.props.session)
       .then(resp => {
         const people = resp.data;
@@ -302,12 +319,19 @@ class AddChild extends Component {
   }
 
   submitPerson = () => {
-    console.log(this.props.apiHost + "/child/add");
-    const requestData = {
+    console.log(this.state.clazzes.filter(cl => cl.id !== this.state.clazz)[0]);
+
+    let requestData = {
       loginData: this.props.session,
       child: this.state,
       childId: null
     };
+
+    console.log("state", this.state);
+
+    this.setState({ clazz: "XD" });
+
+    console.log(this.props.apiHost + "/child/add", requestData);
 
     Axios.post(this.props.apiHost + "/child/add", requestData)
       .then(

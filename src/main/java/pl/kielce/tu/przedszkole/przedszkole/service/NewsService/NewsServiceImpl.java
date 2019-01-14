@@ -82,6 +82,7 @@ public class NewsServiceImpl implements NewsService {
     public List<New> getNewsList() {
         return newsRepository.findAll()
                 .stream()
+                .filter(news -> news.getCreatedDate() != null)
                 .sorted(Comparator.comparing(New::getCreatedDate).thenComparing(New::getId).reversed())
                 .collect(Collectors.toList());
     }
