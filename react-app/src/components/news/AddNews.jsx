@@ -5,7 +5,7 @@ import Axios from "axios";
 class AddNews extends Component {
   state = {
     title: "",
-    context: "",
+    contetnt: "",
     alertType: "",
     message: " "
   };
@@ -40,8 +40,8 @@ class AddNews extends Component {
               <label>Content</label>
               <textarea
                 type="text"
-                id="context"
-                value={this.state.context}
+                id="contetnt"
+                value={this.state.contetnt}
                 onChange={e => this.setState({ [e.target.id]: e.target.value })}
                 className="form-control"
               />
@@ -50,7 +50,7 @@ class AddNews extends Component {
           <div className="row">
             <button
               className="btn btn-primary m-2"
-              onClick={e => this.props.history.push("/app")}
+              onClick={e => this.props.history.push("/news/show")}
             >
               SHOW ALL MESSAGES
             </button>
@@ -72,8 +72,6 @@ class AddNews extends Component {
       news: this.state,
       newsId: null
     };
-
-    console.log(request);
 
     Axios.post(this.props.apiHost + "/news/add", request)
       .then((res, req) =>
