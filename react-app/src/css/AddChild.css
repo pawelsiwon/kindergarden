@@ -1,0 +1,16 @@
+.own-column {
+  padding-right: 0 !important;
+}
+
+.own-column-no-padding-right {
+  padding-right: 5px !important;
+}
+
+.own-column-right {
+  padding-left: 20px !important;
+  padding-right: 0px !important;
+}
+
+.own-text-area {
+  height: 108px !important;
+}

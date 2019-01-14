@@ -10,6 +10,9 @@ import AddPerson from "./components/person/AddPerson";
 import ShowAllParents from "./components/person/ShowAllParents";
 import PersonDetails from "./components/person/PersonDetails";
 import PersonEdit from "./components/person/PersonEdit";
+import ShowAllChildren from "./components/children/ShowAllChildren";
+import AddChild from "./components/children/AddChild";
+import ChildDetails from "./components/children/ChildDetails";
 
 class App extends Component {
   state = {
@@ -30,7 +33,10 @@ class App extends Component {
       {
         img: "/img/children.png",
         title: "CHILDREN",
-        buttons: [{ title: "ADD", path: "" }, { title: "SHOW ALL", path: "" }]
+        buttons: [
+          { title: "ADD", path: "children/add" },
+          { title: "SHOW ALL", path: "children/show" }
+        ]
       },
       {
         img: "/img/classroom.png",
@@ -97,6 +103,35 @@ class App extends Component {
               />
             )}
           />
+
+          <Route
+            path="/children/add"
+            component={() => (
+              <AddChild
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/children/show"
+            component={() => (
+              <ShowAllChildren
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/child/details/:childId"
+            component={() => (
+              <ChildDetails
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+
           <Route
             path="//"
             component={() => (
