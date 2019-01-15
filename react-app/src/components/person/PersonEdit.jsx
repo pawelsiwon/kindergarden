@@ -28,7 +28,7 @@ class PersonEdit extends Component {
     lista: [
       { title: "Administrator", value: "admin" },
       { title: "Parent", value: "parent" },
-      { title: "Employee", value: "employee" }
+      { title: "Teacher", value: "teacher" }
     ]
   };
 

@@ -18,6 +18,12 @@ class ShowAllParent extends Component {
           >
             Return
           </button>
+          <button
+            className="btn btn-success m-2"
+            onClick={e => this.props.history.push("/children/add")}
+          >
+            Add
+          </button>
         </div>
         <h1>Childrens</h1>
         <ShowAllChildrenTable
