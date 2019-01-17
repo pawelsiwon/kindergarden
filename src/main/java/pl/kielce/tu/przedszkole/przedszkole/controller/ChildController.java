@@ -8,7 +8,7 @@ import pl.kielce.tu.przedszkole.przedszkole.dto.ChildActionDto;
 import pl.kielce.tu.przedszkole.przedszkole.dto.LoginData;
 import pl.kielce.tu.przedszkole.przedszkole.dto.Message;
 import pl.kielce.tu.przedszkole.przedszkole.security.custom.CustomLoginUtility;
-import pl.kielce.tu.przedszkole.przedszkole.service.MainAppService;
+import pl.kielce.tu.przedszkole.przedszkole.service.ChildProxyDispatcher;
 
 import javax.naming.AuthenticationException;
 
@@ -17,12 +17,13 @@ import javax.naming.AuthenticationException;
 @RequestMapping("/child")
 public class ChildController {
     private final CustomLoginUtility customLoginUtility;
-    private final MainAppService mainAppService;
+    private final ChildProxyDispatcher childProxyDispatcher;
 
     @Autowired
-    public ChildController(CustomLoginUtility customLoginUtility, MainAppService mainAppService) {
+    public ChildController(CustomLoginUtility customLoginUtility,
+                           ChildProxyDispatcher childProxyDispatcher) {
         this.customLoginUtility = customLoginUtility;
-        this.mainAppService = mainAppService;
+        this.childProxyDispatcher = childProxyDispatcher;
     }
 
     @CrossOrigin
@@ -31,7 +32,7 @@ public class ChildController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(childActionDto.getLoginData());
-            mainAppService.addChild(childActionDto.getLoginData().getLogin(), childActionDto.getChild());
+            childProxyDispatcher.addChild(childActionDto.getLoginData().getLogin(), childActionDto.getChild());
             message = new Message(200, "Child added.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e){
@@ -49,7 +50,7 @@ public class ChildController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(childActionDto.getLoginData());
-            mainAppService.editChild(childActionDto.getLoginData().getLogin(), childActionDto.getChild());
+            childProxyDispatcher.editChild(childActionDto.getLoginData().getLogin(), childActionDto.getChild());
             message = new Message(200, "Child edited.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e){
@@ -67,7 +68,7 @@ public class ChildController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(childActionDto.getLoginData());
-            mainAppService.deleteChild(childActionDto.getLoginData().getLogin(), childActionDto.getChildId());
+            childProxyDispatcher.deleteChild(childActionDto.getLoginData().getLogin(), childActionDto.getChildId());
             message = new Message(200, "Child deleted.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e) {
@@ -86,7 +87,7 @@ public class ChildController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(loginData);
-            return ResponseEntity.ok(mainAppService.getChildren(loginData.getLogin()));
+            return ResponseEntity.ok(childProxyDispatcher.getChildren(loginData.getLogin()));
         } catch(AuthenticationException e) {
             message = new Message(401, "Invalid auth data");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
@@ -103,7 +104,7 @@ public class ChildController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(childActionDto.getLoginData());
-            return ResponseEntity.ok(mainAppService.getChildById(childActionDto.getLoginData().getLogin()
+            return ResponseEntity.ok(childProxyDispatcher.getChildById(childActionDto.getLoginData().getLogin()
                     ,childActionDto.getChildId()));
         } catch(AuthenticationException e) {
             message = new Message(401, "Invalid auth data");

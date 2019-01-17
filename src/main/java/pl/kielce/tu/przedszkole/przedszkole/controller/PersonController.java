@@ -9,6 +9,7 @@ import pl.kielce.tu.przedszkole.przedszkole.dto.Message;
 import pl.kielce.tu.przedszkole.przedszkole.dto.PersonActionDto;
 import pl.kielce.tu.przedszkole.przedszkole.security.custom.CustomLoginUtility;
 import pl.kielce.tu.przedszkole.przedszkole.service.MainAppService;
+import pl.kielce.tu.przedszkole.przedszkole.service.PersonProxyDispatcher;
 
 import javax.naming.AuthenticationException;
 
@@ -18,11 +19,14 @@ import javax.naming.AuthenticationException;
 public class PersonController {
     private final CustomLoginUtility customLoginUtility;
     private final MainAppService mainAppService;
+    private final PersonProxyDispatcher personProxyDispatcher;
     @Autowired
     public PersonController(CustomLoginUtility customLoginUtility,
-                            MainAppService mainAppService) {
+                            MainAppService mainAppService,
+                            PersonProxyDispatcher personProxyDispatcher) {
         this.customLoginUtility = customLoginUtility;
         this.mainAppService = mainAppService;
+        this.personProxyDispatcher = personProxyDispatcher;
     }
 
     @CrossOrigin
@@ -31,7 +35,7 @@ public class PersonController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(personActionDto.getLoginData());
-            mainAppService.addPerson(personActionDto.getLoginData().getLogin(), personActionDto.getPerson());
+            personProxyDispatcher.addPerson(personActionDto.getLoginData().getLogin(), personActionDto.getPerson());
             message = new Message(200, "Person added.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e) {
@@ -50,7 +54,7 @@ public class PersonController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(personActionDto.getLoginData());
-            mainAppService.editPerson(personActionDto.getLoginData().getLogin(), personActionDto.getPerson());
+            personProxyDispatcher.editPerson(personActionDto.getLoginData().getLogin(), personActionDto.getPerson());
             message = new Message(200, "Person edited.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e) {
@@ -69,7 +73,7 @@ public class PersonController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(personActionDto.getLoginData());
-            mainAppService.deletePerson(personActionDto.getLoginData().getLogin(), personActionDto.getPersonId());
+            personProxyDispatcher.deletePerson(personActionDto.getLoginData().getLogin(), personActionDto.getPersonId());
             message = new Message(200, "Person deleted.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e) {
@@ -89,7 +93,7 @@ public class PersonController {
         try {
             customLoginUtility.validateAuthentication(loginData);
 
-            return ResponseEntity.ok(mainAppService.getAdmins(loginData.getLogin()));
+            return ResponseEntity.ok(personProxyDispatcher.getAdmins(loginData.getLogin()));
         } catch(AuthenticationException e) {
             message = new Message(401, "Invalid auth data");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
@@ -107,7 +111,7 @@ public class PersonController {
         try {
             customLoginUtility.validateAuthentication(loginData);
 
-            return ResponseEntity.ok(mainAppService.getTeachers(loginData.getLogin()));
+            return ResponseEntity.ok(personProxyDispatcher.getTeachers(loginData.getLogin()));
         } catch(AuthenticationException e) {
             message = new Message(401, "Invalid auth data");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
@@ -125,7 +129,7 @@ public class PersonController {
         try {
             customLoginUtility.validateAuthentication(loginData);
 
-            return ResponseEntity.ok(mainAppService.getParents(loginData.getLogin()));
+            return ResponseEntity.ok(personProxyDispatcher.getParents(loginData.getLogin()));
         } catch(AuthenticationException e) {
             message = new Message(401, "Invalid auth data");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
@@ -142,7 +146,7 @@ public class PersonController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(personActionDto.getLoginData());
-            return ResponseEntity.ok(mainAppService.getPersonById(personActionDto.getLoginData().getLogin()
+            return ResponseEntity.ok(personProxyDispatcher.getPersonById(personActionDto.getLoginData().getLogin()
                                                                             ,personActionDto.getPersonId()));
         } catch(AuthenticationException e) {
             message = new Message(401, "Invalid auth data");

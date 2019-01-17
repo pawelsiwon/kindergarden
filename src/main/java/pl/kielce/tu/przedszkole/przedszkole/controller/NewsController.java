@@ -9,6 +9,7 @@ import pl.kielce.tu.przedszkole.przedszkole.dto.Message;
 import pl.kielce.tu.przedszkole.przedszkole.dto.NewsActionDto;
 import pl.kielce.tu.przedszkole.przedszkole.security.custom.CustomLoginUtility;
 import pl.kielce.tu.przedszkole.przedszkole.service.MainAppService;
+import pl.kielce.tu.przedszkole.przedszkole.service.NewsProxyDispatcher;
 
 import javax.naming.AuthenticationException;
 
@@ -17,12 +18,13 @@ import javax.naming.AuthenticationException;
 @RequestMapping("/news")
 public class NewsController {
     private final CustomLoginUtility customLoginUtility;
-    private final MainAppService mainAppService;
+    private final NewsProxyDispatcher newsProxyDispatcher;
 
     @Autowired
-    public NewsController(CustomLoginUtility customLoginUtility, MainAppService mainAppService) {
+    public NewsController(CustomLoginUtility customLoginUtility,
+                          NewsProxyDispatcher newsProxyDispatcher) {
         this.customLoginUtility = customLoginUtility;
-        this.mainAppService = mainAppService;
+        this.newsProxyDispatcher = newsProxyDispatcher;
     }
 
     @CrossOrigin
@@ -31,7 +33,7 @@ public class NewsController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(newsActionDto.getLoginData());
-            mainAppService.addNews(newsActionDto.getLoginData().getLogin(), newsActionDto.getNews());
+            newsProxyDispatcher.addNews(newsActionDto.getLoginData().getLogin(), newsActionDto.getNews());
             message = new Message(200, "News added.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e) {
@@ -50,7 +52,7 @@ public class NewsController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(newsActionDto.getLoginData());
-            mainAppService.editNews(newsActionDto.getLoginData().getLogin(), newsActionDto.getNews());
+            newsProxyDispatcher.editNews(newsActionDto.getLoginData().getLogin(), newsActionDto.getNews());
             message = new Message(200, "News edited.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e) {
@@ -69,7 +71,7 @@ public class NewsController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(newsActionDto.getLoginData());
-            mainAppService.deleteNews(newsActionDto.getLoginData().getLogin(), newsActionDto.getNewsId());
+            newsProxyDispatcher.deleteNews(newsActionDto.getLoginData().getLogin(), newsActionDto.getNewsId());
             message = new Message(200, "News deleted.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e) {
@@ -88,7 +90,7 @@ public class NewsController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(loginData);
-            return ResponseEntity.ok(mainAppService.getNewsList(loginData.getLogin()));
+            return ResponseEntity.ok(newsProxyDispatcher.getNewsList(loginData.getLogin()));
         } catch (AuthenticationException e) {
             message = new Message(401, "Invalid credentials.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
@@ -101,7 +103,7 @@ public class NewsController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(newsActionDto.getLoginData());
-            return ResponseEntity.ok(mainAppService.getNewsById(newsActionDto.getLoginData().getLogin(),newsActionDto.getNewsId()));
+            return ResponseEntity.ok(newsProxyDispatcher.getNewsById(newsActionDto.getLoginData().getLogin(),newsActionDto.getNewsId()));
         } catch (AuthenticationException e) {
             message = new Message(401, "Invalid credentials.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);

@@ -1,4 +1,4 @@
-package pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand;
+package pl.kielce.tu.przedszkole.przedszkole.service.ChildService.ChildCommand;
 
 import pl.kielce.tu.przedszkole.przedszkole.model.Child;
 

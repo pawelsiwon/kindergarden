@@ -1,9 +1,7 @@
-package pl.kielce.tu.przedszkole.przedszkole.service.ChildCommand;
+package pl.kielce.tu.przedszkole.przedszkole.service.ChildService.ChildCommand;
 
 import pl.kielce.tu.przedszkole.przedszkole.model.Child;
 import pl.kielce.tu.przedszkole.przedszkole.repository.ChildRepository;
-
-import java.util.Optional;
 
 public class EditChildCommand implements ChildCommand {
     private final ChildRepository childRepository;

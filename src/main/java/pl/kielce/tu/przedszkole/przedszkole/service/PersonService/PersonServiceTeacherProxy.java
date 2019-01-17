@@ -39,24 +39,6 @@ public class PersonServiceTeacherProxy implements PersonService {
     }
 
     @Override
-    public void addChild(String issuerUsername, Child child) throws Exception {
-        logger.warning("User " + issuerUsername + " attempted to add child through proxy");
-        throw new OperationNotSupportedException("Not possible through proxy");
-    }
-
-    @Override
-    public void editChild(String issuerUsername, Child child) throws Exception {
-        logger.warning("User " + issuerUsername + " attempted to edit child through proxy");
-        throw new OperationNotSupportedException("Not possible through proxy");
-    }
-
-    @Override
-    public void deleteChild(String issuerUsername, Long childId) throws Exception {
-        logger.warning("User " + issuerUsername + " attempted to delete child through proxy");
-        throw new OperationNotSupportedException("Not possible through proxy");
-    }
-
-    @Override
     public List<Person> getAdmins() {
         return personServiceImpl.getAdmins();
     }
@@ -72,17 +54,7 @@ public class PersonServiceTeacherProxy implements PersonService {
     }
 
     @Override
-    public List<Child> getChildren() {
-        return personServiceImpl.getChildren();
-    }
-
-    @Override
     public Person getPersonById(Long personId) {
         return personServiceImpl.getPersonById(personId);
-    }
-
-    @Override
-    public Child getChildById(Long childId) {
-        return personServiceImpl.getChildById(childId);
     }
 }

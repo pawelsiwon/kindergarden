@@ -1,4 +1,4 @@
-package pl.kielce.tu.przedszkole.przedszkole.service.PersonListStrategy;
+package pl.kielce.tu.przedszkole.przedszkole.service.PersonService.PersonListStrategy;
 
 import pl.kielce.tu.przedszkole.przedszkole.model.Person;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;

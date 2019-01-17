@@ -1,4 +1,4 @@
-package pl.kielce.tu.przedszkole.przedszkole.service.PersonListStrategy;
+package pl.kielce.tu.przedszkole.przedszkole.service.PersonService.PersonListStrategy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -8,6 +8,7 @@ import pl.kielce.tu.przedszkole.przedszkole.dto.ClassActionDto;
 import pl.kielce.tu.przedszkole.przedszkole.dto.LoginData;
 import pl.kielce.tu.przedszkole.przedszkole.dto.Message;
 import pl.kielce.tu.przedszkole.przedszkole.security.custom.CustomLoginUtility;
+import pl.kielce.tu.przedszkole.przedszkole.service.ClassProxyDispatcher;
 import pl.kielce.tu.przedszkole.przedszkole.service.MainAppService;
 
 import javax.naming.AuthenticationException;
@@ -17,13 +18,13 @@ import javax.naming.AuthenticationException;
 @RequestMapping("/class")
 public class ClassController {
     private final CustomLoginUtility customLoginUtility;
-    private final MainAppService mainAppService;
+    private final ClassProxyDispatcher classProxyDispatcher;
 
     @Autowired
     public ClassController(CustomLoginUtility customLoginUtility,
-                           MainAppService mainAppService) {
+                           ClassProxyDispatcher classProxyDispatcher) {
         this.customLoginUtility = customLoginUtility;
-        this.mainAppService = mainAppService;
+        this.classProxyDispatcher= classProxyDispatcher;
     }
 
     @CrossOrigin
@@ -32,7 +33,7 @@ public class ClassController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(classActionDto.getLoginData());
-            mainAppService.addClass(classActionDto.getLoginData().getLogin(), classActionDto.getTransferedClass());
+            classProxyDispatcher.addClass(classActionDto.getLoginData().getLogin(), classActionDto.getTransferedClass());
             message = new Message(200, "Class added.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e){
@@ -50,7 +51,7 @@ public class ClassController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(classActionDto.getLoginData());
-            mainAppService.editClass(classActionDto.getLoginData().getLogin(), classActionDto.getTransferedClass());
+            classProxyDispatcher.editClass(classActionDto.getLoginData().getLogin(), classActionDto.getTransferedClass());
             message = new Message(200, "Class edited.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e){
@@ -68,7 +69,7 @@ public class ClassController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(classActionDto.getLoginData());
-            mainAppService.deleteClass(classActionDto.getLoginData().getLogin(), classActionDto.getClassId());
+            classProxyDispatcher.deleteClass(classActionDto.getLoginData().getLogin(), classActionDto.getClassId());
             message = new Message(200, "Class deleted.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e) {
@@ -87,7 +88,7 @@ public class ClassController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(loginData);
-            return ResponseEntity.ok(mainAppService.getClasses(loginData.getLogin()));
+            return ResponseEntity.ok(classProxyDispatcher.getClasses(loginData.getLogin()));
         } catch(AuthenticationException e) {
             message = new Message(401, "Invalid auth data");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
@@ -104,7 +105,7 @@ public class ClassController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(classActionDto.getLoginData());
-            return ResponseEntity.ok(mainAppService.getClassById(classActionDto.getLoginData().getLogin()
+            return ResponseEntity.ok(classProxyDispatcher.getClassById(classActionDto.getLoginData().getLogin()
                     ,classActionDto.getClassId()));
         } catch(AuthenticationException e) {
             message = new Message(401, "Invalid auth data");
