@@ -15,6 +15,9 @@ import AddChild from "./components/children/AddChild";
 import ChildDetails from "./components/children/ChildDetails";
 import AddNews from "./components/news/AddNews";
 import ShowNews from "./components/news/ShowNews";
+import ClassroomAdd from "./components/classroom/ClassroomAdd";
+import ClassroomDetails from "./components/classroom/ClassroomDetails";
+import ClassroomList from "./components/classroom/ClassroomList";
 
 class App extends Component {
   state = {
@@ -36,7 +39,10 @@ class App extends Component {
       {
         img: "/img/classroom.png",
         title: "CLASSROOMS",
-        buttons: [{ title: "ADD", path: "" }, { title: "SHOW ALL", path: "" }]
+        buttons: [
+          { title: "ADD", path: "classroom/add" },
+          { title: "SHOW ALL", path: "classroom/show" }
+        ]
       },
       {
         img: "/img/news.png",
@@ -151,6 +157,34 @@ class App extends Component {
             path="/child/details/:childId"
             component={() => (
               <ChildDetails
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+
+          <Route
+            path="/classroom/show"
+            component={() => (
+              <ClassroomList
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/classroom/add"
+            component={() => (
+              <ClassroomAdd
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/classroom/details/:classId"
+            component={() => (
+              <ClassroomDetails
                 apiHost={this.state.apiHost}
                 session={this.state.sessionData}
               />

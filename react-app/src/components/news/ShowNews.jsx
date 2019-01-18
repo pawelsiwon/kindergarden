@@ -33,8 +33,8 @@ class ShowNews extends Component {
                     news.person.name +
                     " " +
                     news.person.surname +
-                    " " +
-                    news.createDate}
+                    " on " +
+                    news.createdDate}
                 </p>
                 <p className="border-bottom alert alert-primary">
                   {news.contetnt}

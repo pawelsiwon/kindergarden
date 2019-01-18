@@ -13,7 +13,7 @@ class PersonDetails extends Component {
         <div className="row">
           <button
             className="btn btn-primary m-2"
-            onClick={e => this.props.history.push("/person/show")}
+            onClick={e => this.props.history.push("/app")}
           >
             Return
           </button>
@@ -178,7 +178,7 @@ class PersonDetails extends Component {
           </div>
           <button
             className="btn btn-warning"
-            onClick={e => this.goToPage("/person/edit/" + this.state.person.id)}
+            onClick={e => this.goToPage("/app" + this.state.person.id)}
           >
             Edit
           </button>
