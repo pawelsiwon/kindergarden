@@ -8,7 +8,6 @@ import pl.kielce.tu.przedszkole.przedszkole.dto.LoginData;
 import pl.kielce.tu.przedszkole.przedszkole.dto.Message;
 import pl.kielce.tu.przedszkole.przedszkole.dto.PersonActionDto;
 import pl.kielce.tu.przedszkole.przedszkole.security.custom.CustomLoginUtility;
-import pl.kielce.tu.przedszkole.przedszkole.service.MainAppService;
 import pl.kielce.tu.przedszkole.przedszkole.service.PersonProxyDispatcher;
 
 import javax.naming.AuthenticationException;
@@ -18,14 +17,11 @@ import javax.naming.AuthenticationException;
 @RequestMapping("/person")
 public class PersonController {
     private final CustomLoginUtility customLoginUtility;
-    private final MainAppService mainAppService;
     private final PersonProxyDispatcher personProxyDispatcher;
     @Autowired
     public PersonController(CustomLoginUtility customLoginUtility,
-                            MainAppService mainAppService,
                             PersonProxyDispatcher personProxyDispatcher) {
         this.customLoginUtility = customLoginUtility;
-        this.mainAppService = mainAppService;
         this.personProxyDispatcher = personProxyDispatcher;
     }
 

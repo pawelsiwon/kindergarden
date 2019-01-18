@@ -9,7 +9,6 @@ import pl.kielce.tu.przedszkole.przedszkole.dto.LoginData;
 import pl.kielce.tu.przedszkole.przedszkole.dto.Message;
 import pl.kielce.tu.przedszkole.przedszkole.security.custom.CustomLoginUtility;
 import pl.kielce.tu.przedszkole.przedszkole.service.ClassProxyDispatcher;
-import pl.kielce.tu.przedszkole.przedszkole.service.MainAppService;
 
 import javax.naming.AuthenticationException;
 
