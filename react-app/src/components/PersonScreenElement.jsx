@@ -22,25 +22,29 @@ class ScreenElement extends Component {
           >
             ADD
           </button>
-          <div class="btn-group d-flex" role="group" aria-label="Basic example">
+          <div
+            className="btn-group d-flex"
+            role="group"
+            aria-label="Basic example"
+          >
             <button
               type="button"
               onClick={() => this.props.history.push("/parents/show")}
-              class="btn btn-primary"
+              className="btn btn-primary"
             >
               PARENTS
             </button>
             <button
               type="button"
               onClick={() => this.props.history.push("/teachers/show")}
-              class="btn btn-primary"
+              className="btn btn-primary"
             >
               TEACHERS
             </button>
             <button
               type="button"
               onClick={() => this.props.history.push("/admins/show")}
-              class="btn btn-primary"
+              className="btn btn-primary"
             >
               ADMINS
             </button>

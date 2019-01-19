@@ -18,13 +18,14 @@ import ShowNews from "./components/news/ShowNews";
 import ClassroomAdd from "./components/classroom/ClassroomAdd";
 import ClassroomDetails from "./components/classroom/ClassroomDetails";
 import ClassroomList from "./components/classroom/ClassroomList";
+import ClassroomManageChildren from "./components/classroom/ClassroomManageChildren";
 
 class App extends Component {
   state = {
     apiHost: "http://localhost:8081",
     sessionData: {
-      login: "psiwon",
-      password: "psiwon@",
+      login: "psiwon1",
+      password: "psiwon1",
       message: ""
     },
     screens: [
@@ -185,6 +186,15 @@ class App extends Component {
             path="/classroom/details/:classId"
             component={() => (
               <ClassroomDetails
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/classroom/managechildren/:classId"
+            component={() => (
+              <ClassroomManageChildren
                 apiHost={this.state.apiHost}
                 session={this.state.sessionData}
               />
