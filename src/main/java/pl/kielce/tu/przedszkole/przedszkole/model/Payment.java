@@ -1,9 +1,12 @@
 package pl.kielce.tu.przedszkole.przedszkole.model;
 
 import lombok.Data;
+import pl.kielce.tu.przedszkole.przedszkole.service.PaymentService.PaymentDecorator.BasicFee;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -13,7 +16,7 @@ import java.util.Date;
  */
 @Data
 @Entity
-public class Payment implements Serializable {
+public class Payment implements Serializable, BasicFee {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -26,30 +29,29 @@ public class Payment implements Serializable {
 
 	//bi-directional many-to-one association to Child
 	@ManyToOne
+	@NotNull
 	private Child child;
 
 	//bi-directional many-to-one association to Expense
-	@ManyToOne
-	private Expense expense;
+//	@ManyToOne
+//	private Expense expense;
 
 	//bi-directional many-to-one association to Person
 	@ManyToOne
+	@NotNull
 	@JoinColumn(name="WHO_PAYED")
 	private Person person;
 
+	@NotNull
+	private BigDecimal cost;
+
+	@NotNull
+	private String name;
+
+	private String description;
+
 	public Payment() {
+		this.cost = new BigDecimal(0);
+		this.description = "";
 	}
-
-	public void setExpense(Expense expense) {
-		this.expense = expense;
-	}
-
-	public Person getPerson() {
-		return this.person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
 }
