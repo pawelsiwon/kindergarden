@@ -25,6 +25,7 @@ public class PaymentController {
         this.paymentProxyDispatcher = paymentProxyDispatcher;
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     ResponseEntity<?> addPayment(@RequestBody PaymentActionDto paymentActionDto) {
         Message message;
@@ -43,6 +44,7 @@ public class PaymentController {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     ResponseEntity<?> editPayment(@RequestBody PaymentActionDto paymentActionDto) {
         Message message;
@@ -61,6 +63,7 @@ public class PaymentController {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     ResponseEntity<?> deletePayment(@RequestBody PaymentActionDto paymentActionDto) {
         Message message;
@@ -79,6 +82,7 @@ public class PaymentController {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/list/parent_and_child", method = RequestMethod.POST)
     ResponseEntity<?> getPaymentByParentAndChild(@RequestBody PaymentActionDto paymentActionDto) {
         Message message;
@@ -95,6 +99,7 @@ public class PaymentController {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/details", method = RequestMethod.POST)
     ResponseEntity<?> getPaymentById(@RequestBody PaymentActionDto paymentActionDto) {
         Message message;
