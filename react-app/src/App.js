@@ -244,7 +244,7 @@ class App extends Component {
             component={() => (
               <AddPayment
                 apiHost={this.state.apiHost}
-                setSession={this.setSessionId}
+                session={this.state.sessionData}
               />
             )}
           />

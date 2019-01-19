@@ -1,11 +1,24 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { withRouter } from "react-router";
+import Select from "react-select";
+import { Checkbox } from "@material-ui/core";
 
 class AddPayment extends Component {
   state = {
-    login: "",
-    password: ""
+    childId: "",
+    name: "Payment",
+    paymentsIncludes: ["", ""],
+    paymentId: "",
+
+    persons: [],
+    childs: [],
+    child: {},
+    payments: [],
+
+    teachers: [],
+    teacher: {},
+    includes: []
   };
   render() {
     return (
@@ -23,45 +36,18 @@ class AddPayment extends Component {
           <br />
           <div className="row">
             <div className="col-md-4 mb-3">
-              <label htmlFor="0002">Login</label>
-              <input
-                type="text"
-                className="form-control"
-                id="0002"
-                value={this.state.login}
-                onChange={e => this.setState({ login: e.target.value })}
-              />
-            </div>
-            <div className="col-md-4 mb-3">
-              <label htmlFor="0003">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="0003"
-                value={this.state.password}
-                onChange={e => this.setState({ password: e.target.value })}
-              />
-            </div>
-
-            <div className="col-md-4 mb-3">
               <label htmlFor="firstName">Person ID</label>
-              <input
-                id="firstName"
-                className="form-control"
-                type="text"
-                value={this.state.name}
-                onChange={e => this.setState({ name: e.target.value })}
+              <Select
+                options={this.state.teachers}
+                onChange={e => this.setState({ teacher: e.value })}
               />
             </div>
 
             <div className="col-md-4 mb-3">
               <label htmlFor="firstName">Child ID</label>
-              <input
-                id="firstName"
-                className="form-control"
-                type="text"
-                value={this.state.name}
-                onChange={e => this.setState({ name: e.target.value })}
+              <Select
+                options={this.state.childs}
+                onChange={e => this.setState({ children: e.value })}
               />
             </div>
 
@@ -75,18 +61,28 @@ class AddPayment extends Component {
                 onChange={e => this.setState({ name: e.target.value })}
               />
             </div>
-
-            <div className="col-md-4 mb-3">
-              <label htmlFor="firstName">Payment ID</label>
-              <input
-                id="firstName"
-                className="form-control"
-                type="text"
-                value={this.state.name}
-                onChange={e => this.setState({ name: e.target.value })}
-              />
+            <div className="row">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="INSURANCE_FEE" />
+                  Insurance fee
+                </label>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" value="MEALS_FEE" />
+                    Meals fee
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" value="SECOND_CHILD_BARGAIN" />
+                    Second child bargain
+                  </label>
+                </div>
+              </div>
             </div>
-
+          </div>
+          <div className="row">
             <button
               className="btn btn-danger col-md-1 m-2"
               onClick={this.resetForm}
@@ -145,8 +141,10 @@ class AddPayment extends Component {
     console.log(this.props.apiHost + "/payment/add");
     const requestData = {
       loginData: this.props.session,
-      person: this.state,
-      personId: null
+      childId: this.state.childId,
+      name: "Payment",
+      paymentsIncludes: ["", ""],
+      paymentId: this.state.paymentId
     };
     console.log(requestData);
     Axios.post(this.props.apiHost + "/payment/add", requestData)
@@ -164,6 +162,43 @@ class AddPayment extends Component {
         })
       );
   };
+
+  componentDidMount() {
+    console.log(this.props.apiHost + "/list/teachers", this.props.session);
+    Axios.post(this.props.apiHost + "/person/list/teachers", this.props.session)
+      .then((res, req) => {
+        let obj1 = res.data.map(cl => {
+          return { value: cl, label: cl.name + " " + cl.surname };
+        });
+
+        this.setState({ teachers: obj1 });
+
+        console.log("teachers", this.state.teachers);
+      })
+      .catch(err => console.log(err));
+
+    Axios.post(this.props.apiHost + "/child/list", this.props.session)
+      .then(res => {
+        let obj1 = res.data.map(cl => {
+          return { value: cl, label: cl.name + " " + cl.surname };
+        });
+
+        this.setState({ childs: obj1 });
+      })
+      .catch(err => console.log(err));
+
+    Axios.post(this.props.apiHost + "/payment/list", this.props.session)
+      .then(res => {
+        let obj1 = res.data.map(cl => {
+          return { value: cl, label: cl.name + " " + cl.surname };
+        });
+
+        this.setState({ childs: obj1 });
+      })
+      .catch(err => console.log(err));
+
+    this.setState({ yearStart: 2019, yearEnd: 2019 });
+  }
 }
 
 export default withRouter(AddPayment);

@@ -12,12 +12,12 @@ class LoginForm extends Component {
     message: ""
   };
 
-  submitData = () => {
+  submitData = e => {
     Axois.post(this.props.apiHost + "/api/login", this.state)
       .then((res, req) => {
         this.setState({ message: "" });
+        console.log("XD");
         this.props.setSession(this.state.login, this.state.password);
-        this.props.history.push("/app");
       })
       .catch(err => {
         this.props.setSession(this.state.login, this.state.password);
