@@ -1,13 +1,13 @@
 package pl.kielce.tu.przedszkole.przedszkole.dto;
 
 import lombok.Data;
-import pl.kielce.tu.przedszkole.przedszkole.model.Class;
+import pl.kielce.tu.przedszkole.przedszkole.model.Classroom;
 
 @Data
 public class ClassActionDto {
     private LoginData loginData;
 
-    private Class transferedClass;
+    private Classroom transferedClassroom;
 
     private Long classId;
 }

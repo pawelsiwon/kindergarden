@@ -7,17 +7,16 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "PRESENCE_LIST")
 public class PresenceListEntry {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "person_seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "presence_seq")
     private long id;
 
     @ManyToOne
     private Child child;
 
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date presenceDate;
 
     private enum Presence {
         ABSENT,

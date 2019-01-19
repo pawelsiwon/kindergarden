@@ -60,10 +60,10 @@ public class Child implements Serializable {
 	@ManyToMany(mappedBy="childs")
 	private List<Person> people;
 
-	//bi-directional many-to-one association to Class
+	//bi-directional many-to-one association to Classroom
 	@ManyToOne
 	@JoinColumn(name="GROUP_ID")
-	private Class clazz;
+	private Classroom clazz;
 
 	//bi-directional many-to-one association to Payment
 	@OneToMany(mappedBy="child")

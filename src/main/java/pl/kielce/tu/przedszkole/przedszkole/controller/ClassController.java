@@ -32,8 +32,8 @@ public class ClassController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(classActionDto.getLoginData());
-            classProxyDispatcher.addClass(classActionDto.getLoginData().getLogin(), classActionDto.getTransferedClass());
-            message = new Message(200, "Class added.");
+            classProxyDispatcher.addClass(classActionDto.getLoginData().getLogin(), classActionDto.getTransferedClassroom());
+            message = new Message(200, "Classroom added.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e){
             message = new Message(401, "Invalid auth data");
@@ -50,8 +50,8 @@ public class ClassController {
         Message message;
         try {
             customLoginUtility.validateAuthentication(classActionDto.getLoginData());
-            classProxyDispatcher.editClass(classActionDto.getLoginData().getLogin(), classActionDto.getTransferedClass());
-            message = new Message(200, "Class edited.");
+            classProxyDispatcher.editClass(classActionDto.getLoginData().getLogin(), classActionDto.getTransferedClassroom());
+            message = new Message(200, "Classroom edited.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e){
             message = new Message(401, "Invalid auth data");
@@ -69,7 +69,7 @@ public class ClassController {
         try {
             customLoginUtility.validateAuthentication(classActionDto.getLoginData());
             classProxyDispatcher.deleteClass(classActionDto.getLoginData().getLogin(), classActionDto.getClassId());
-            message = new Message(200, "Class deleted.");
+            message = new Message(200, "Classroom deleted.");
             return ResponseEntity.ok(message);
         } catch(AuthenticationException e) {
             message = new Message(401, "Invalid auth data");
