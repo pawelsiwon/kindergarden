@@ -19,6 +19,7 @@ import ClassroomAdd from "./components/classroom/ClassroomAdd";
 import ClassroomDetails from "./components/classroom/ClassroomDetails";
 import ClassroomList from "./components/classroom/ClassroomList";
 import ClassroomManageChildren from "./components/classroom/ClassroomManageChildren";
+import AddPayment from "./components/Payments/AddPayment";
 
 class App extends Component {
   state = {
@@ -51,6 +52,14 @@ class App extends Component {
         buttons: [
           { title: "ADD", path: "/news/add" },
           { title: "SHOW ALL", path: "/news/show" }
+        ]
+      },
+      {
+        img: "/img/children.png",
+        title: "PAYMENTS",
+        buttons: [
+          { title: "ADD", path: "payments/add" },
+          { title: "SHOW ALL", path: "payments/show" }
         ]
       }
     ]
@@ -224,6 +233,16 @@ class App extends Component {
             path="//"
             component={() => (
               <LoginForm
+                apiHost={this.state.apiHost}
+                setSession={this.setSessionId}
+              />
+            )}
+          />
+
+          <Route
+            path="/payments/add"
+            component={() => (
+              <AddPayment
                 apiHost={this.state.apiHost}
                 setSession={this.setSessionId}
               />
