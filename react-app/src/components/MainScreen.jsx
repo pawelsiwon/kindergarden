@@ -16,6 +16,7 @@ class MainScreen extends Component {
           />
           {this.props.screens.map(screen => (
             <ScreenElement
+              key={"screenElement_" + screen.title}
               img={screen.img}
               screenTitle={screen.title}
               buttons={screen.buttons}
