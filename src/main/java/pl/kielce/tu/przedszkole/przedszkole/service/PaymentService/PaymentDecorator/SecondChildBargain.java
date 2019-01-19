@@ -14,6 +14,6 @@ public class SecondChildBargain extends PaymentDecorator {
 
     @Override
     public String getDescription() {
-        return super.getDescription();
+        return super.getDescription()+"Second child bargain";
     }
 }
