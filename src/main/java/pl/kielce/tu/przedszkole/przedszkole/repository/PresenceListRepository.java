@@ -12,5 +12,5 @@ import java.util.List;
 public interface PresenceListRepository extends JpaRepository<PresenceListEntry, Long> {
     List<PresenceListEntry> findAllByChildClazz_Id(Long id);
 
-    List<PresenceListEntry> findAllByChildClazz_IdAndDate(Long classId, Date date);
+    List<PresenceListEntry> findAllByChildClazz_IdAndPresenceDate(Long classId, Date presenceDate);
 }

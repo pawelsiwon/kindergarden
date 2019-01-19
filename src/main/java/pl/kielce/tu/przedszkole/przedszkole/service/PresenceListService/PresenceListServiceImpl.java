@@ -21,13 +21,13 @@ public class PresenceListServiceImpl implements PresenceListService {
 
     @Override
     public void addEntry(String username, PresenceListEntry presenceListEntry) {
-        presenceListEntry.setDate(new Date());
+        presenceListEntry.setPresenceDate(new Date());
         presenceListRepository.save(presenceListEntry);
     }
 
     @Override
     public void addEntries(String username, List<PresenceListEntry> presenceListEntries) {
-        presenceListEntries.forEach(presenceListEntry -> presenceListEntry.setDate(new Date()));
+        presenceListEntries.forEach(presenceListEntry -> presenceListEntry.setPresenceDate(new Date()));
         presenceListRepository.saveAll(presenceListEntries);
     }
 
@@ -63,6 +63,6 @@ public class PresenceListServiceImpl implements PresenceListService {
     @Override
     public List<PresenceListEntry> getPresenceEntryByClassAndDate(String username, Long classId, Date date) {
 
-        return presenceListRepository.findAllByChildClazz_IdAndDate(classId, date);
+        return presenceListRepository.findAllByChildClazz_IdAndPresenceDate(classId, date);
     }
 }
