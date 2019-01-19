@@ -3,7 +3,8 @@ package pl.kielce.tu.przedszkole.przedszkole.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.kielce.tu.przedszkole.przedszkole.model.Class;
+import pl.kielce.tu.przedszkole.przedszkole.dto.ClassResponseDto;
+import pl.kielce.tu.przedszkole.przedszkole.model.Classroom;
 import pl.kielce.tu.przedszkole.przedszkole.model.Person;
 import pl.kielce.tu.przedszkole.przedszkole.service.ClassService.ClassService;
 import pl.kielce.tu.przedszkole.przedszkole.service.ClassService.ClassServiceImpl;
@@ -39,13 +40,13 @@ public class ClassProxyDispatcher {
     }
 
     @Transactional
-    public void addClass(String issuingPersonUsername, Class addedClass) throws Exception {
-        resolveClassInterface(personResolverUtils.resolvePersonByLogin(issuingPersonUsername)).addClass(issuingPersonUsername, addedClass);
+    public void addClass(String issuingPersonUsername, Classroom addedClassroom) throws Exception {
+        resolveClassInterface(personResolverUtils.resolvePersonByLogin(issuingPersonUsername)).addClass(issuingPersonUsername, addedClassroom);
     }
 
     @Transactional
-    public void editClass(String issuingPersonUsername, Class editedClass) throws Exception {
-        resolveClassInterface(personResolverUtils.resolvePersonByLogin(issuingPersonUsername)).editClass(issuingPersonUsername, editedClass);
+    public void editClass(String issuingPersonUsername, Classroom editedClassroom) throws Exception {
+        resolveClassInterface(personResolverUtils.resolvePersonByLogin(issuingPersonUsername)).editClass(issuingPersonUsername, editedClassroom);
     }
 
     @Transactional
@@ -53,11 +54,11 @@ public class ClassProxyDispatcher {
         resolveClassInterface(personResolverUtils.resolvePersonByLogin(issuingPersonUsername)).deleteClass(issuingPersonUsername, classId);
     }
 
-    public List<Class> getClasses(String issuingPersonUsername) {
+    public List<Classroom> getClasses(String issuingPersonUsername) {
         return resolveClassInterface(personResolverUtils.resolvePersonByLogin(issuingPersonUsername)).getClasses();
     }
 
-    public Class getClassById(String issuingPersonUsername, Long classId) {
+    public ClassResponseDto getClassById(String issuingPersonUsername, Long classId) {
         return resolveClassInterface(personResolverUtils.resolvePersonByLogin(issuingPersonUsername)).getClassById(classId);
     }
 }

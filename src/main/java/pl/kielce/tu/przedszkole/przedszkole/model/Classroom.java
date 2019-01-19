@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name="CLASSROOM")
-public class Class implements Serializable {
+public class Classroom implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,28 +31,14 @@ public class Class implements Serializable {
 	private BigDecimal yearStart;
 
 	//bi-directional many-to-one association to Child
-	@OneToMany(mappedBy="clazz")
-	private List<Child> childs;
+//	@OneToMany
+//	private List<Child> childs;
 
 	//bi-directional many-to-one association to Worker
 	@ManyToOne
 	@JoinColumn(name="TEACHER")
 	private Person person;
 
-	public Class() {
-	}
-
-	public Child addChild(Child child) {
-		getChilds().add(child);
-		child.setClazz(this);
-
-		return child;
-	}
-
-	public Child removeChild(Child child) {
-		getChilds().remove(child);
-		child.setClazz(null);
-
-		return child;
+	public Classroom() {
 	}
 }

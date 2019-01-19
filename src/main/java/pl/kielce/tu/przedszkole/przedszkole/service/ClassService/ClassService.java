@@ -1,17 +1,18 @@
 package pl.kielce.tu.przedszkole.przedszkole.service.ClassService;
 
-import pl.kielce.tu.przedszkole.przedszkole.model.Class;
+import pl.kielce.tu.przedszkole.przedszkole.dto.ClassResponseDto;
+import pl.kielce.tu.przedszkole.przedszkole.model.Classroom;
 
 import java.util.List;
 
 public interface ClassService {
-    void addClass(String issuingUsername, Class addedClass) throws Exception;
+    void addClass(String issuingUsername, Classroom addedClassroom) throws Exception;
 
-    void editClass(String issuingUsername, Class editedClass) throws Exception;
+    void editClass(String issuingUsername, Classroom editedClassroom) throws Exception;
 
     void deleteClass(String issuingUsername, Long deletedClassId) throws Exception;
 
-    List<Class> getClasses();
+    List<Classroom> getClasses();
 
-    Class getClassById(Long classId);
+    ClassResponseDto getClassById(Long classId);
 }
