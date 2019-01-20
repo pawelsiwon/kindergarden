@@ -1,6 +1,7 @@
 package pl.kielce.tu.przedszkole.przedszkole.service.PaymentService;
 
 
+import pl.kielce.tu.przedszkole.przedszkole.dto.LoginData;
 import pl.kielce.tu.przedszkole.przedszkole.dto.PaymentActionDto;
 import pl.kielce.tu.przedszkole.przedszkole.model.Payment;
 
@@ -16,4 +17,6 @@ public interface PaymentService {
     List<Payment> getPaymentsByParentAndChild(PaymentActionDto paymentActionDto);
 
     Payment getPaymentById(PaymentActionDto paymentActionDto);
+
+    List<Payment> getAllPayments(LoginData loginData);
 }

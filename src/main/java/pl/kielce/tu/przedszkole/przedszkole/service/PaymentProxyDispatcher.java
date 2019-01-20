@@ -3,6 +3,7 @@ package pl.kielce.tu.przedszkole.przedszkole.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kielce.tu.przedszkole.przedszkole.dto.LoginData;
 import pl.kielce.tu.przedszkole.przedszkole.dto.PaymentActionDto;
 import pl.kielce.tu.przedszkole.przedszkole.model.Payment;
 import pl.kielce.tu.przedszkole.przedszkole.model.Person;
@@ -62,5 +63,9 @@ public class PaymentProxyDispatcher {
     public Payment getPaymentById(PaymentActionDto paymentActionDto) {
         return resolvePaymentInterface(personResolverUtils.resolvePersonByLogin(paymentActionDto.getLoginData().getLogin()))
                 .getPaymentById(paymentActionDto);
+    }
+
+    public List<Payment> getAllPayments(LoginData loginData) {
+        return resolvePaymentInterface(personResolverUtils.resolvePersonByLogin(loginData.getLogin())).getAllPayments(loginData);
     }
 }

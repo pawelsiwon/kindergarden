@@ -2,6 +2,7 @@ package pl.kielce.tu.przedszkole.przedszkole.service.PaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.kielce.tu.przedszkole.przedszkole.dto.LoginData;
 import pl.kielce.tu.przedszkole.przedszkole.dto.PaymentActionDto;
 import pl.kielce.tu.przedszkole.przedszkole.model.Payment;
 
@@ -43,5 +44,10 @@ public class PaymentServiceParentProxy implements PaymentService{
     @Override
     public Payment getPaymentById(PaymentActionDto paymentActionDto) {
         return paymentServiceImpl.getPaymentById(paymentActionDto);
+    }
+
+    @Override
+    public List<Payment> getAllPayments(LoginData loginData) {
+        return paymentServiceImpl.getAllPayments(loginData);
     }
 }

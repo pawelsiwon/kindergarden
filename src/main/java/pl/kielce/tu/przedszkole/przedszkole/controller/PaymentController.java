@@ -3,6 +3,7 @@ package pl.kielce.tu.przedszkole.przedszkole.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.kielce.tu.przedszkole.przedszkole.dto.LoginData;
 import pl.kielce.tu.przedszkole.przedszkole.dto.Message;
 import pl.kielce.tu.przedszkole.przedszkole.dto.PaymentActionDto;
 import pl.kielce.tu.przedszkole.przedszkole.security.custom.CustomLoginUtility;
@@ -107,6 +108,22 @@ public class PaymentController {
             customLoginUtility.validateAuthentication(paymentActionDto.getLoginData());
             return ResponseEntity.ok(paymentProxyDispatcher.getPaymentById(paymentActionDto));
 
+        }catch(AuthenticationException e) {
+            message = new Message(401, "Invalid auth data");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @CrossOrigin
+    ResponseEntity<?> getAllPayments(@RequestBody LoginData loginData) {
+        Message message;
+        try {
+            customLoginUtility.validateAuthentication(loginData);
+            return ResponseEntity.ok(paymentProxyDispatcher.getAllPayments(loginData));
         }catch(AuthenticationException e) {
             message = new Message(401, "Invalid auth data");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);

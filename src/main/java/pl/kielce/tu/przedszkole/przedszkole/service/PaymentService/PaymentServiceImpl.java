@@ -2,6 +2,7 @@ package pl.kielce.tu.przedszkole.przedszkole.service.PaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.kielce.tu.przedszkole.przedszkole.dto.LoginData;
 import pl.kielce.tu.przedszkole.przedszkole.dto.PaymentActionDto;
 import pl.kielce.tu.przedszkole.przedszkole.model.Child;
 import pl.kielce.tu.przedszkole.przedszkole.model.Payment;
@@ -11,9 +12,11 @@ import pl.kielce.tu.przedszkole.przedszkole.repository.PaymentRepository;
 import pl.kielce.tu.przedszkole.przedszkole.repository.PersonRepository;
 import pl.kielce.tu.przedszkole.przedszkole.service.PaymentService.PaymentDecorator.*;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentServiceImpl implements PaymentService{
@@ -109,5 +112,10 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public Payment getPaymentById(PaymentActionDto paymentActionDto) {
         return paymentRepository.findById(paymentActionDto.getPaymentId()).orElse(null);
+    }
+
+    @Override
+    public List<Payment> getAllPayments(LoginData loginData) {
+        return paymentRepository.findAll();
     }
 }
