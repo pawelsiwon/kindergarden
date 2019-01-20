@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { withRouter } from "react-router";
 import Select from "react-select";
-import { Checkbox } from "@material-ui/core";
 
 class AddPayment extends Component {
   state = {
@@ -62,7 +61,7 @@ class AddPayment extends Component {
               />
             </div>
             <div className="row">
-              <div class="checkbox">
+              <div className="checkbox">
                 <label>
                   <input
                     onClick={e => this.addToList(e)}
@@ -71,13 +70,13 @@ class AddPayment extends Component {
                   />
                   Insurance fee
                 </label>
-                <div class="checkbox">
+                <div className="checkbox">
                   <label>
                     <input type="checkbox" value="MEALS_FEE" />
                     Meals fee
                   </label>
                 </div>
-                <div class="checkbox">
+                <div className="checkbox">
                   <label>
                     <input type="checkbox" value="SECOND_CHILD_BARGAIN" />
                     Second child bargain
@@ -184,7 +183,10 @@ class AddPayment extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.apiHost + "/list/teachers", this.props.session);
+    console.log(
+      this.props.apiHost + "/person/list/teachers",
+      this.props.session
+    );
     Axios.post(this.props.apiHost + "/person/list/teachers", this.props.session)
       .then((res, req) => {
         let obj1 = res.data.map(cl => {
