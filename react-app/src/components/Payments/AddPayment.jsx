@@ -6,9 +6,9 @@ import Select from "react-select";
 class AddPayment extends Component {
   state = {
     childId: "",
-    name: "Payment",
-    paymentsIncludes: ["", ""],
-    paymentId: "",
+    name: "",
+    paymentsIncludes: [],
+    payerId: "",
 
     persons: [],
     childs: [],
@@ -38,7 +38,7 @@ class AddPayment extends Component {
               <label htmlFor="firstName">Person ID</label>
               <Select
                 options={this.state.teachers}
-                onChange={e => this.setState({ teacher: e.value })}
+                onChange={e => this.setState({ payerId: e.value })}
               />
             </div>
 
@@ -46,7 +46,7 @@ class AddPayment extends Component {
               <label htmlFor="firstName">Child ID</label>
               <Select
                 options={this.state.childs}
-                onChange={e => this.setState({ children: e.value })}
+                onChange={e => this.setState({ childId: e.value })}
               />
             </div>
 
@@ -112,12 +112,11 @@ class AddPayment extends Component {
 
   addToList = checkbox => {
     //checked = checkbox.target.checked;
-   // checkboxValue = checkbox.target.value;
-
-    if (checkbox.target.checkbox === true) {
-      let includes = this.state.includes;
-      includes.push(checkbox.target.value);
-      this.setState({ includes });
+    // checkboxValue = checkbox.target.value;
+    let newIncludes = this.state.includes.slice();
+    if (checkbox.target.checked === true) {
+      newIncludes.push(checkbox.target.value);
+      this.setState({ includes: newIncludes });
     } else {
       let includes = this.state.includes.filter(
         i => i === checkbox.target.value
@@ -161,9 +160,9 @@ class AddPayment extends Component {
     const requestData = {
       loginData: this.props.session,
       childId: this.state.childId,
-      name: "Payment",
-      paymentsIncludes: ["", ""],
-      paymentId: this.state.paymentId
+      name: this.state.name,
+      paymentsIncludes: this.state.paymentsIncludes,
+      payerId: this.state.payerId
     };
     console.log(requestData);
     Axios.post(this.props.apiHost + "/payment/add", requestData)
@@ -187,10 +186,10 @@ class AddPayment extends Component {
       this.props.apiHost + "/person/list/teachers",
       this.props.session
     );
-    Axios.post(this.props.apiHost + "/person/list/teachers", this.props.session)
+    Axios.post(this.props.apiHost + "/person/list/parents", this.props.session)
       .then((res, req) => {
         let obj1 = res.data.map(cl => {
-          return { value: cl, label: cl.name + " " + cl.surname };
+          return { value: cl.id, label: cl.name + " " + cl.surname };
         });
 
         this.setState({ teachers: obj1 });
@@ -202,7 +201,7 @@ class AddPayment extends Component {
     Axios.post(this.props.apiHost + "/child/list", this.props.session)
       .then(res => {
         let obj1 = res.data.map(cl => {
-          return { value: cl, label: cl.name + " " + cl.surname };
+          return { value: cl.id, label: cl.name + " " + cl.surname };
         });
 
         this.setState({ childs: obj1 });
@@ -212,7 +211,7 @@ class AddPayment extends Component {
     Axios.post(this.props.apiHost + "/payment/list", this.props.session)
       .then(res => {
         let obj1 = res.data.map(cl => {
-          return { value: cl, label: cl.name + " " + cl.surname };
+          return { value: cl.id, label: cl.name + " " + cl.surname };
         });
 
         this.setState({ childs: obj1 });
