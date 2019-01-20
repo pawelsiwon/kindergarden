@@ -55,7 +55,7 @@ class App extends Component {
         ]
       },
       {
-        img: "/img/children.png",
+        img: "/img/payment.jpg",
         title: "PAYMENTS",
         buttons: [
           { title: "ADD", path: "payments/add" },
