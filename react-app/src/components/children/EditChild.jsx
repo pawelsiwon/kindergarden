@@ -47,24 +47,23 @@ class EditChild extends Component {
         <form className="needs-validation">
           <div className="row">
             <div className="col-md-4 mb-3">
-              <label htmlFor="firstName">First name</label>
+              <label htmlFor="name">First name</label>
               <input
-                id="firstName"
+                id="name"
                 className="form-control"
                 type="text"
                 value={this.state.name}
-                onChange={e =>
-                  this.setState({ [this.state.name]: e.target.value })
-                }
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
             <div className="col-md-4 mb-3">
-              <label htmlFor="lastName">Last name</label>
+              <label htmlFor="surname">Last name</label>
               <input
-                id="lastName"
+                id="surname"
                 className="form-control"
                 type="text"
                 value={this.state.surname}
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
             <div className="col-md-4 mb-3">
@@ -74,6 +73,7 @@ class EditChild extends Component {
                 id="birthdate"
                 className="form-control"
                 value={this.state.birthdate}
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
           </div>
@@ -85,6 +85,7 @@ class EditChild extends Component {
                 id="001"
                 className="form-control"
                 value={this.state.pesel}
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
             <div className="col-md-4 mb-3">
@@ -94,6 +95,7 @@ class EditChild extends Component {
                 id="003"
                 className="form-control"
                 value={this.state.admissionDate}
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
             <div className="col-md-4 mb-3">
@@ -103,6 +105,7 @@ class EditChild extends Component {
                 id="002"
                 className="form-control"
                 value={this.state.dischargeDate}
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
           </div>
@@ -114,6 +117,7 @@ class EditChild extends Component {
                 id="city"
                 className="form-control"
                 value={this.state.city}
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
             <div className="col-md-2 mb-3">
@@ -125,6 +129,7 @@ class EditChild extends Component {
                 placeholder="__-___"
                 className="form-control"
                 value={this.state.postale}
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
             <div className="col-md-5 mb-3">
@@ -134,6 +139,7 @@ class EditChild extends Component {
                 id="street"
                 className="form-control"
                 value={this.state.street}
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
             <div className="col-md-1 mb-3">
@@ -141,9 +147,10 @@ class EditChild extends Component {
               <input
                 type="text"
                 pattern="[1-9]*"
-                id="apartment"
+                id="streetAddress"
                 className="form-control"
                 value={this.state.streetAddress}
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
             <div className="col-md-1 mb-3">
@@ -154,6 +161,7 @@ class EditChild extends Component {
                 id="suite"
                 className="form-control"
                 value={this.state.suite}
+                onChange={e => this.setState({ [e.target.id]: e.target.value })}
               />
             </div>
           </div>
@@ -179,7 +187,9 @@ class EditChild extends Component {
           <div className="row" />
           <button
             className="btn btn-warning m-2"
-            onClick={e => this.goToPage("/child/edit/" + this.state.child.id)}
+            onClick={e => {
+              this.sendEdit();
+            }}
           >
             Edit
           </button>
@@ -188,8 +198,24 @@ class EditChild extends Component {
     );
   }
 
+  sendEdit = () => {
+    let requestData = {
+      loginData: this.props.session,
+      child: this.state,
+      childId: this.props.match.params.childId
+    };
+
+    console.log(this.props.apiHost + "/child/edit", requestData);
+    Axios.post(this.props.apiHost + "/child/edit", requestData)
+      .then((res, req) => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   componentDidMount = () => {
-    console.log("Component mount");
     let requestData = {
       loginData: this.props.session,
       childId: this.props.match.params.childId
