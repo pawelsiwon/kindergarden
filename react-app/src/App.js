@@ -26,8 +26,8 @@ class App extends Component {
   state = {
     apiHost: "http://localhost:8081",
     sessionData: {
-      login: "psiwon1",
-      password: "psiwon1",
+      login: "admin",
+      password: "admin",
       message: ""
     },
     screens: [

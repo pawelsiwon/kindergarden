@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import Axios from "axios";
-import { nsend } from "q";
 
 class ShowNews extends Component {
   state = { newsList: [] };

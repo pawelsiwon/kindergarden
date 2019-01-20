@@ -7,7 +7,7 @@ class AddPayment extends Component {
   state = {
     childId: "",
     name: "",
-    paymentsIncludes: [],
+    paymentIncludes: [],
     payerId: "",
 
     persons: [],
@@ -72,13 +72,21 @@ class AddPayment extends Component {
                 </label>
                 <div className="checkbox">
                   <label>
-                    <input type="checkbox" value="MEALS_FEE" />
+                    <input
+                      type="checkbox"
+                      value="MEALS_FEE"
+                      onClick={e => this.addToList(e)}
+                    />
                     Meals fee
                   </label>
                 </div>
                 <div className="checkbox">
                   <label>
-                    <input type="checkbox" value="SECOND_CHILD_BARGAIN" />
+                    <input
+                      type="checkbox"
+                      value="SECOND_CHILD_BARGAIN"
+                      onClick={e => this.addToList(e)}
+                    />
                     Second child bargain
                   </label>
                 </div>
@@ -110,21 +118,6 @@ class AddPayment extends Component {
     );
   }
 
-  addToList = checkbox => {
-    //checked = checkbox.target.checked;
-    // checkboxValue = checkbox.target.value;
-    let newIncludes = this.state.includes.slice();
-    if (checkbox.target.checked === true) {
-      newIncludes.push(checkbox.target.value);
-      this.setState({ includes: newIncludes });
-    } else {
-      let includes = this.state.includes.filter(
-        i => i === checkbox.target.value
-      );
-    }
-    console.log(this.state.includes);
-  };
-
   resetForm = () => {
     this.setState({
       name: "",
@@ -155,16 +148,27 @@ class AddPayment extends Component {
     });
   };
 
+  addToList = e => {
+    let includes = [];
+    includes = includes.concat(this.state.paymentIncludes);
+    if (e.target.checked) {
+      includes = includes.concat(e.target.value);
+    } else {
+      includes = this.state.paymentIncludes.filter(
+        inc => inc !== e.target.value
+      );
+    }
+    this.setState({ paymentIncludes: includes });
+  };
+
   submitPayment = () => {
-    console.log(this.props.apiHost + "/payment/add");
     const requestData = {
       loginData: this.props.session,
       childId: this.state.childId,
       name: this.state.name,
-      paymentsIncludes: this.state.paymentsIncludes,
+      paymentIncludes: this.state.paymentIncludes,
       payerId: this.state.payerId
     };
-    console.log(requestData);
     Axios.post(this.props.apiHost + "/payment/add", requestData)
       .then(
         this.setState({
