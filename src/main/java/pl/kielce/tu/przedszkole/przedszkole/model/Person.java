@@ -65,25 +65,6 @@ public class Person implements Serializable {
 
 	private String role;
 
-	//bi-directional many-to-one association to Payment
-	@OneToMany(mappedBy="person")
-	private List<Payment> payments;
-
 	public Person() {
 	}
-
-	public Payment addPayment(Payment payment) {
-		getPayments().add(payment);
-		payment.setPerson(this);
-
-		return payment;
-	}
-
-	public Payment removePayment(Payment payment) {
-		getPayments().remove(payment);
-		payment.setPerson(null);
-
-		return payment;
-	}
-
 }
