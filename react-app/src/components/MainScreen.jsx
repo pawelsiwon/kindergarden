@@ -9,6 +9,14 @@ class MainScreen extends Component {
     return (
       <div className="container main-screen">
         <div className="row">
+          <button
+            className="m-2 btn btn-danger"
+            onClick={e => this.props.history.push("//")}
+          >
+            Log out
+          </button>
+        </div>
+        <div className="row">
           <PersonScreenElement
             img="/img/person.png"
             screenTitle="PERSONS"
