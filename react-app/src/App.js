@@ -18,9 +18,9 @@ import ShowNews from "./components/news/ShowNews";
 import ClassroomAdd from "./components/classroom/ClassroomAdd";
 import ClassroomDetails from "./components/classroom/ClassroomDetails";
 import ClassroomList from "./components/classroom/ClassroomList";
-import ClassroomManageChildren from "./components/classroom/ClassroomManageChildren";
 import AddPayment from "./components/Payments/AddPayment";
 import CheckPresence from "./components/presence/CheckPresence";
+import HistoryPresence from "./components/presence/HistoryPresence";
 
 class App extends Component {
   state = {
@@ -202,18 +202,18 @@ class App extends Component {
             )}
           />
           <Route
-            path="/classroom/managechildren/:classId"
+            path="/classroom/checkpresence/:classId"
             component={() => (
-              <ClassroomManageChildren
+              <CheckPresence
                 apiHost={this.state.apiHost}
                 session={this.state.sessionData}
               />
             )}
           />
           <Route
-            path="/classroom/checkpresence/:classId"
+            path="/classroom/historypresence/:classId"
             component={() => (
-              <CheckPresence
+              <HistoryPresence
                 apiHost={this.state.apiHost}
                 session={this.state.sessionData}
               />

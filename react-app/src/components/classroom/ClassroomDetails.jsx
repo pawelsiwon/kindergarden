@@ -20,21 +20,21 @@ class ClassroomDetails extends Component {
             className="btn btn-primary m-2"
             onClick={e =>
               this.props.history.push(
-                "/classroom/managechildren/" + this.props.match.params.classId
-              )
-            }
-          >
-            Manage childrens
-          </button>
-          <button
-            className="btn btn-primary m-2"
-            onClick={e =>
-              this.props.history.push(
                 "/classroom/checkpresence/" + this.props.match.params.classId
               )
             }
           >
             Check presence
+          </button>
+          <button
+            className="btn btn-primary m-2"
+            onClick={e =>
+              this.props.history.push(
+                "/classroom/historypresence/" + this.props.match.params.classId
+              )
+            }
+          >
+            History presence
           </button>
         </div>
         <h1>{this.state.classroom.classroom.name + " classroom details"}</h1>

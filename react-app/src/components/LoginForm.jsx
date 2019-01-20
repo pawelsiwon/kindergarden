@@ -16,7 +16,6 @@ class LoginForm extends Component {
     Axois.post(this.props.apiHost + "/api/login", this.state)
       .then((res, req) => {
         this.setState({ message: "" });
-        console.log("XD");
         this.props.setSession(this.state.login, this.state.password);
           this.props.history.push("/app");
       })

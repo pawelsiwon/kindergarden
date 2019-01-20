@@ -3,11 +3,13 @@ import { withRouter } from "react-router";
 import Axios from "axios";
 import Select from "react-select";
 
-class CheckPresence extends Component {
+class HistoryPresence extends Component {
   state = {
     presenceDate: "",
-    classroom: { childList: [] },
+    class: "",
+    classroom: {},
     presenceListEntries: [],
+    classes: [],
 
     alertType: "",
     alertMessage: ""
@@ -26,49 +28,36 @@ class CheckPresence extends Component {
           >
             Return
           </button>
-          <button
-            className="btn btn-success m-2"
-            onClick={e => this.savePresence()}
-          >
-            Save
-          </button>
           <div className="m-2 col-md-3">
             <input
               type="date"
-              disabled
               className="form-control"
               value={this.state.presenceDate}
               onChange={e => {
-                this.setState({ presenceDate: e.target.value });
+                this.setState(
+                  { presenceDate: e.target.value },
+                  this.getPresenceList
+                );
               }}
             />
           </div>
         </div>
-
-        <h1>{Date.getDate}</h1>
         <table className="table table-striped table-dark table-hover table-sm">
           <thead className="thead-dark">
             <tr>
               <th scope="col">#</th>
               <th scope="col">Last name</th>
               <th scope="col">First name</th>
-              <th scope="col" />
+              <th scope="col">Status</th>
             </tr>
           </thead>
           <tbody>
-            {this.state.classroom.childList.map(child => (
-              <tr>
-                <td>{this.state.classroom.childList.indexOf(child) + 1}</td>
-                <td>{child.surname}</td>
-                <td>{child.name}</td>
-                <Select
-                  options={[
-                    { value: "ABSENT", label: "absent" },
-                    { value: "PRESENT", label: "present" },
-                    { value: "LATE", label: "late" }
-                  ]}
-                  onChange={e => this.changePresence(child, e.value)}
-                />
+            {this.state.presenceListEntries.map(entry => (
+              <tr key={"entry_" + entry.id}>
+                <td>{this.state.presenceListEntries.indexOf(entry) + 1}</td>
+                <td>{entry.child.surname}</td>
+                <td>{entry.child.name}</td>
+                <td>{entry.presence}</td>
               </tr>
             ))}
           </tbody>
@@ -81,6 +70,30 @@ class CheckPresence extends Component {
       </div>
     );
   }
+
+  getPresenceList = () => {
+    console.log("Getting presence list");
+
+    const requestData = {
+      loginData: this.props.session,
+      classId: this.props.match.params.classId,
+      date: this.state.presenceDate
+    };
+
+    console.log(this.props.apiHost + "/presence/list", requestData);
+
+    Axios.post(this.props.apiHost + "/presence/list", requestData)
+      .then((res, req) => {
+        console.log(res.data);
+        this.setState({ presenceListEntries: res.data });
+      })
+      .catch(err =>
+        this.setState({
+          alertType: "warning",
+          alertMessage: "Problem with contact to the server"
+        })
+      );
+  };
 
   changePresence = (child, presenceValue) => {
     let obj = {
@@ -126,12 +139,16 @@ class CheckPresence extends Component {
 
     const requestData = {
       loginData: this.props.session,
-      classId: this.props.match.params.classId
+      classId: this.props.match.params.classId,
+      date: presenceDate
     };
 
-    Axios.post(this.props.apiHost + "/class/profile", requestData)
+    console.log(this.props.apiHost + "/presence/list", requestData);
+
+    Axios.post(this.props.apiHost + "/presence/list", requestData)
       .then((res, req) => {
-        this.setState({ classroom: res.data });
+        console.log(res.data);
+        this.setState({ presenceListEntries: res.data });
       })
       .catch(err =>
         this.setState({
@@ -142,4 +159,4 @@ class CheckPresence extends Component {
   }
 }
 
-export default withRouter(CheckPresence);
+export default withRouter(HistoryPresence);

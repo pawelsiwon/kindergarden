@@ -258,13 +258,11 @@ class AddPerson extends Component {
   };
 
   submitPerson = () => {
-    console.log(this.props.apiHost + "/person/add");
     const requestData = {
       loginData: this.props.session,
       person: this.state,
       personId: null
     };
-    console.log(requestData);
     Axios.post(this.props.apiHost + "/person/add", requestData)
       .then(
         this.setState({
@@ -272,11 +270,10 @@ class AddPerson extends Component {
           formMessage: "Person added!"
         })
       )
-      .catch(
+      .catch(err =>
         this.setState({
           alertType: "warning",
-          formMessage:
-            "An error occured, please try again or contact with admin!"
+          formMessage: err
         })
       );
   };
