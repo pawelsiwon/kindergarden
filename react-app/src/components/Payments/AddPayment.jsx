@@ -64,7 +64,11 @@ class AddPayment extends Component {
             <div className="row">
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" value="INSURANCE_FEE" />
+                  <input
+                    onClick={e => this.addToList(e)}
+                    type="checkbox"
+                    value="INSURANCE_FEE"
+                  />
                   Insurance fee
                 </label>
                 <div class="checkbox">
@@ -106,6 +110,22 @@ class AddPayment extends Component {
       </div>
     );
   }
+
+  addToList = checkbox => {
+    //checked = checkbox.target.checked;
+   // checkboxValue = checkbox.target.value;
+
+    if (checkbox.target.checkbox === true) {
+      let includes = this.state.includes;
+      includes.push(checkbox.target.value);
+      this.setState({ includes });
+    } else {
+      let includes = this.state.includes.filter(
+        i => i === checkbox.target.value
+      );
+    }
+    console.log(this.state.includes);
+  };
 
   resetForm = () => {
     this.setState({

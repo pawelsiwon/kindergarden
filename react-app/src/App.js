@@ -20,6 +20,7 @@ import ClassroomDetails from "./components/classroom/ClassroomDetails";
 import ClassroomList from "./components/classroom/ClassroomList";
 import ClassroomManageChildren from "./components/classroom/ClassroomManageChildren";
 import AddPayment from "./components/Payments/AddPayment";
+import CheckPresence from "./components/presence/CheckPresence";
 
 class App extends Component {
   state = {
@@ -204,6 +205,15 @@ class App extends Component {
             path="/classroom/managechildren/:classId"
             component={() => (
               <ClassroomManageChildren
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/classroom/checkpresence/:classId"
+            component={() => (
+              <CheckPresence
                 apiHost={this.state.apiHost}
                 session={this.state.sessionData}
               />

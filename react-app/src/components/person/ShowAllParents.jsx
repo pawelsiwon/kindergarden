@@ -45,6 +45,7 @@ class ShowAllParent extends Component {
     Axios.post(this.props.apiHost + this.props.apiLink, this.props.session)
       .then(resp => {
         const parents = resp.data;
+        console.log(parents);
         this.setState({ parents });
       })
       .catch(err => console.log(err));

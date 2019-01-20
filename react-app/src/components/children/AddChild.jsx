@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import Axios from "axios";
+import Select from "react-select";
 
 import "./../../css/AddChild.css";
 
@@ -125,25 +126,10 @@ class AddChild extends Component {
             <div className="row col-md-8 own-column">
               <div className="col-md-6 own-column-no-padding-right">
                 <label htmlFor="">Classroom</label>
-                <select
-                  className="custom-select d-block w-100"
-                  value={this.state.clazz}
-                  id="clazz"
-                  onChange={e =>
-                    this.setState({ [e.target.id]: e.target.value })
-                  }
-                >
-                  <option>Choose classroom...</option>
-                  {this.state.clazzes.map(clazz => (
-                    <option key={clazz.id + "_class"} value={clazz.id}>
-                      {clazz.name +
-                        " - " +
-                        clazz.yearStart +
-                        "/" +
-                        clazz.yearEnd}
-                    </option>
-                  ))}
-                </select>
+                <Select
+                  options={this.state.clazzes}
+                  onChange={e => this.setState({ clazz: e.value })}
+                />
               </div>
               <div className="col-md-6 own-column-right">
                 <label htmlFor="">Parent 1</label>
@@ -305,8 +291,10 @@ class AddChild extends Component {
     console.log(this.props.apiHost + "/class/list", this.props.session);
     Axios.post(this.props.apiHost + "/class/list", this.props.session)
       .then((res, req) => {
-        console.log(res.data);
-        this.setState({ clazzes: res.data });
+        let obj1 = res.data.map(cl => {
+          return { value: cl, label: cl.name };
+        });
+        this.setState({ clazzes: obj1 });
       })
       .catch(err => console.log(err));
 
@@ -326,10 +314,6 @@ class AddChild extends Component {
       child: this.state,
       childId: null
     };
-
-    console.log("state", this.state);
-
-    this.setState({ clazz: "XD" });
 
     console.log(this.props.apiHost + "/child/add", requestData);
 

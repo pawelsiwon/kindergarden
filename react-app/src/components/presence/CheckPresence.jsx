@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import Axios from "axios";
+import Select from "react-select";
 
-class ClassroomDetails extends Component {
+class CheckPresence extends Component {
   state = {
-    classroom: { childList: [], classroom: {} }
+    todayDate: "",
+    classroom: { childList: [] }
   };
   render() {
     return (
@@ -12,32 +14,34 @@ class ClassroomDetails extends Component {
         <div className="row">
           <button
             className="btn btn-primary m-2"
-            onClick={e => this.props.history.push("/classroom/show")}
+            onClick={e =>
+              this.props.history.push(
+                "/classroom/details/" + this.props.match.params.classId
+              )
+            }
           >
             Return
           </button>
           <button
-            className="btn btn-primary m-2"
-            onClick={e =>
-              this.props.history.push(
-                "/classroom/managechildren/" + this.props.match.params.classId
-              )
-            }
+            className="btn btn-success m-2"
+            onClick={e => this.props.history.push("/classroom/show")}
           >
-            Manage childrens
+            Save
           </button>
-          <button
-            className="btn btn-primary m-2"
-            onClick={e =>
-              this.props.history.push(
-                "/classroom/checkpresence/" + this.props.match.params.classId
-              )
-            }
-          >
-            Check presence
-          </button>
+          <div className="m-2 col-md-3">
+            <input
+              type="date"
+              className="form-control"
+              value={this.state.todayDate}
+              onChange={e => {
+                this.setState({ todayDate: e.target.value });
+                this.getPresenceList();
+              }}
+            />
+          </div>
         </div>
-        <h1>{this.state.classroom.classroom.name + " classroom details"}</h1>
+
+        <h1>{Date.getDate}</h1>
         <table className="table table-striped table-dark table-hover table-sm">
           <thead className="thead-dark">
             <tr>
@@ -49,12 +53,17 @@ class ClassroomDetails extends Component {
           </thead>
           <tbody>
             {this.state.classroom.childList.map(child => (
-              <tr key={child.id}>
-                <td className="align-middle">
-                  {this.state.classroom.childList.indexOf(child) + 1}
-                </td>
-                <td className="align-middle">{child.surname}</td>
-                <td className="align-middle">{child.name}</td>
+              <tr>
+                <td>{this.state.classroom.childList.indexOf(child) + 1}</td>
+                <td>{child.surname}</td>
+                <td>{child.name}</td>
+                <Select
+                  options={[
+                    { value: "ABSENT", label: "absent" },
+                    { value: "PRESENT", label: "present" },
+                    { value: "LATE", label: "late" }
+                  ]}
+                />
               </tr>
             ))}
           </tbody>
@@ -63,7 +72,14 @@ class ClassroomDetails extends Component {
     );
   }
 
+  getPresenceList = () => {
+    console.log("getPresenceList function");
+  };
+
   componentDidMount() {
+    let todayDate = new Date().toISOString().slice(0, 10);
+    this.setState({ todayDate });
+
     const requestData = {
       loginData: this.props.session,
       classId: this.props.match.params.classId
@@ -75,9 +91,10 @@ class ClassroomDetails extends Component {
       .then((res, req) => {
         this.setState({ classroom: res.data });
         console.log(res);
+        console.log(this.state);
       })
       .catch(err => console.log("Błąd: " + err));
   }
 }
 
-export default withRouter(ClassroomDetails);
+export default withRouter(CheckPresence);
