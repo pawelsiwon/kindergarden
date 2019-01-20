@@ -21,8 +21,6 @@ public class EditChildCommand implements ChildCommand {
         childToEdit.setPostale(child.getPostale());
         childToEdit.setAdmissionDate(child.getAdmissionDate());
         childToEdit.setBirthdate(child.getBirthdate());
-        //childToEdit.setClazz(child.getClazz());
-        childToEdit.setPayments(child.getPayments());
         childToEdit.setPeople(child.getPeople());
 
         childRepository.save(childToEdit);

@@ -65,25 +65,7 @@ public class Child implements Serializable {
 	@JoinColumn(name="GROUP_ID")
 	private Classroom clazz;
 
-	//bi-directional many-to-one association to Payment
-	@OneToMany(mappedBy="child")
-	private List<Payment> payments;
-
 	public Child() {
-	}
-
-	public Payment addPayment(Payment payment) {
-		getPayments().add(payment);
-		payment.setChild(this);
-
-		return payment;
-	}
-
-	public Payment removePayment(Payment payment) {
-		getPayments().remove(payment);
-		payment.setChild(null);
-
-		return payment;
 	}
 
 }
