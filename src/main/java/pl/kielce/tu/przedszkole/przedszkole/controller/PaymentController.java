@@ -119,6 +119,7 @@ public class PaymentController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/all", method = RequestMethod.POST)
     ResponseEntity<?> getAllPayments(@RequestBody LoginData loginData) {
         Message message;
         try {
