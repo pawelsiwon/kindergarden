@@ -22,6 +22,7 @@ import AddPayment from "./components/Payments/AddPayment";
 import CheckPresence from "./components/presence/CheckPresence";
 import ShowPayments from "./components/Payments/ShowPayments";
 import HistoryPresence from "./components/presence/HistoryPresence";
+import EditChild from "./components/children/EditChild";
 
 class App extends Component {
   state = {
@@ -160,6 +161,15 @@ class App extends Component {
             path="/children/show"
             component={() => (
               <ShowAllChildren
+                apiHost={this.state.apiHost}
+                session={this.state.sessionData}
+              />
+            )}
+          />
+          <Route
+            path="/child/edit/:childId"
+            component={() => (
+              <EditChild
                 apiHost={this.state.apiHost}
                 session={this.state.sessionData}
               />
