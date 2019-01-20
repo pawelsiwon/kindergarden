@@ -56,16 +56,11 @@ class ShowPayments extends Component {
   }
 
   componentDidMount() {
-    let obj = {
-      loginData: this.props.session,
-      payerId: "",
-      childId: "",
-      name: ""
-    };
-    console.log(this.props.apiHost + "/payment/list/parent_and_child", obj);
-    Axios.post(this.props.apiHost + "/payment/list/parent_and_child", obj)
+    console.log(this.props.apiHost + "/payment/all", this.props.session);
+    Axios.post(this.props.apiHost + "/payment/all", this.props.session)
       .then((res, req) => {
         console.log(res.data);
+        
 
         this.setState({ payments: res.data });
       })

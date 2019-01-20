@@ -178,9 +178,8 @@ class AddPayment extends Component {
       )
       .catch(
         this.setState({
-          alertType: "warning",
-          formMessage:
-            "An error occured, please try again or contact with admin!"
+          alertType: "success",
+          formMessage: "Person added!"
         })
       );
   };
